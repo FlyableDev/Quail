@@ -15,6 +15,11 @@ from typing import Callable
 
 import pytest
 from _pytest.fixtures import SubRequest
+
+from setup.quail_setup import setup_quail
+
+setup_quail()
+
 from quail.parser.parser import parse_quailt_file
 from quail.quail_test import QuailTest
 from utils.utils import StdOut, CompilationError
@@ -22,23 +27,23 @@ from utils.utils import StdOut, CompilationError
 
 def _get_error_msg(test, py_result, fly_result, dependencies=None):
     return (
-        (
-            f"\n/!\\ This test might have failed because of one of the dependencies "
-            f"{tuple(dependencies.replace(' ', '').split(','))!r} /!\\.\n\n"
-            if dependencies is not None
-            else ""
-        )
-        + f"python  => {py_result}\n"
-        + f"flyable => {fly_result}\n"
-        + "-" * 15
-        + "tested code"
-        + "-" * 15
-        + f"\n{''.join(test.lines)}\n"
-        + (
-            "-" * 15 + "original code" + "-" * 15 + f"\n{''.join(test.original_lines)}"
-            if test.original_lines != test.lines
-            else ""
-        )
+            (
+                f"\n/!\\ This test might have failed because of one of the dependencies "
+                f"{tuple(dependencies.replace(' ', '').split(','))!r} /!\\.\n\n"
+                if dependencies is not None
+                else ""
+            )
+            + f"python  => {py_result}\n"
+            + f"flyable => {fly_result}\n"
+            + "-" * 15
+            + "tested code"
+            + "-" * 15
+            + f"\n{''.join(test.lines)}\n"
+            + (
+                "-" * 15 + "original code" + "-" * 15 + f"\n{''.join(test.original_lines)}"
+                if test.original_lines != test.lines
+                else ""
+            )
     )
 
 
@@ -47,10 +52,10 @@ def _get_warning_msg(warnings: list[tuple[str, list[str]]]):
         f"- {test_name} (outputs => {py_result})" for test_name, py_result in warnings
     )
     return (
-        "\n\nThe following tests had some values evaluated to False when executed with python:\n"
-        + warning
-        + "\n"
-        + "-" * 15
+            "\n\nThe following tests had some values evaluated to False when executed with python:\n"
+            + warning
+            + "\n"
+            + "-" * 15
     )
 
 
@@ -79,8 +84,8 @@ def quail_tester(func: Callable):
         if "quail_results" in kwargs and quail_test_in("quail_results"):
             kwargs["quail_results"] = (
                 kwargs["quail_results"][quail_test_name]
-                .fly_compile(save_results=True)
-                .results
+                    .fly_compile(save_results=True)
+                    .results
             )
         return func(*args, **kwargs)
 
@@ -88,11 +93,11 @@ def quail_tester(func: Callable):
 
 
 def quail_runtimes_tester(
-    func: Callable = None,
-    include: list[str] = None,
-    exclude: list[str] = None,
-    strict: bool = False,
-    mode: str = "",
+        func: Callable = None,
+        include: list[str] = None,
+        exclude: list[str] = None,
+        strict: bool = False,
+        mode: str = "",
 ):
     """
     This method wraps an empty method and will test the execution of every quail test found
@@ -106,9 +111,9 @@ def quail_runtimes_tester(
         warnings: list[tuple[str, list[str]]] = []
         for test in quail_test.values():
             if (
-                test.mode not in ("runtime", "both")
-                or (exclude and test.name in exclude)
-                or (include and test.name not in include)
+                    test.mode not in ("runtime", "both")
+                    or (exclude and test.name in exclude)
+                    or (include and test.name not in include)
             ):
                 continue
             try:
@@ -143,7 +148,6 @@ def quail_runtimes_tester(
         assert not failed, "\n" + ("\n" + "~" * 30 + "\n\n").join(failed)
 
     if func is None:
-
         def wrap(_: Callable):
             return test_quail_test_runtimes
 
@@ -213,7 +217,7 @@ def get_dependencies(item: Node):
 
 
 def pytest_exception_interact(
-    node: Node, call: CallInfo, report: CollectReport | TestReport
+        node: Node, call: CallInfo, report: CollectReport | TestReport
 ):
     dependencies = get_dependencies(node)
     if report.failed and dependencies is not None:

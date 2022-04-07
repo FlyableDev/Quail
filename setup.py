@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     py_modules=["main"],
-    install_requires=["click", "rich", "pytest"],
+    install_requires=["click", "rich", "pytest", "pyyaml"],
 
     entry_points={"console_scripts": ["Quail = cli.main:cli"]},
 )

@@ -6,51 +6,43 @@ from cli.cli_types import QuailSuiteTestNameType, QuailTestNameType
 from utils.trim import trim
 import setup.quail_setup as cli_setup
 
-# from flyable import FLYABLE_VERSION
 import click
 from subprocess import Popen
 from cli.cli_utils import console, print_quail_err
 
 print = console.print
 
-FLYABLE_VERSION = 12
+FLYABLE_VERSION: int
 HELP = "Welcome to the Quail maker helper!"
 
 INITIALIZED = False
 
 
-def abort_if_not_init(ctx, param, value):
+def init_if_not_init(ctx, param, value):
+    global FLYABLE_VERSION
+    global INITIALIZED
     if not INITIALIZED:
-        print_quail_err(
-            "Quail not initialized, run `Quail init` before this command"
-        )
-        ctx.abort()
+        INITIALIZED = cli_setup.setup_quail()
+        if INITIALIZED:
+            from flyable import FLYABLE_VERSION as FLY_V
+            FLYABLE_VERSION = FLY_V
 
 
 @click.group(help=HELP)
 def cli():
-    return "aaa"
+    pass
 
 
-@cli.command(name="init")
-@click.option("--setup-file", default="../quail.setup.yaml", help="Specify where to find the setup file")
-@click.option(
-    "--force",
-    "-f",
-    default=False,
-    help="Tells Quail to redo the initialization event if it was already done.",
-)
-def quail_init(setup_file: str, forced: bool):
-    global INITIALIZED
-    if not INITIALIZED or forced:
-        cli_setup.setup_quail(setup_file)
-        INITIALIZED = True
-    else:
-        print("Quail already initialized, use --force to force Quail to redo the initialization.")
+@cli.command(name="run")
+@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
+@click.argument("test", default="ALL")
+def run(test):
+    process = Popen(["pytest", "./tests/unit_tests"])
+    process.communicate()
 
 
 @cli.command(name="new")
-@click.option("--need-init", is_flag=True, callback=abort_if_not_init, expose_value=False)
+@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
 @click.argument("name")
 @click.option(
     "--blank",
@@ -93,7 +85,9 @@ def create_new_quail_integration_test(name: str, blank: bool, git_add: bool):
                     Description: YOUR_DESCRIPTION
                     """
                     # Quail-test:start
-                    "hello world!" == "hello world!"  # Quail-assert: True
+                    def test():
+                        "hello world!" == "hello world!"  # Quail-assert: True
+                    test()
                     # Quail-test:end
                     '''
                     )
@@ -135,6 +129,7 @@ def set_is_compile(_ctx, _self, choice):
 
 
 @cli.command(name="add")
+@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
 @click.argument("test-suite-name", type=QuailSuiteTestNameType())
 @click.option(
     "--test-name", prompt="Enter the name of your test", type=QuailTestNameType()
@@ -152,7 +147,6 @@ def set_is_compile(_ctx, _self, choice):
     prompt="Add a quail tester?",
     default=get_is_compile,
 )
-@need_initialization
 def add_test_to_test_suite(
         test_suite_name: str,
         test_name: str,
@@ -221,6 +215,7 @@ def add_test_to_test_suite(
 
 
 @cli.command(name="integration")
+@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
 @click.argument("name")
 @click.option(
     "--conf",
@@ -236,7 +231,6 @@ def add_test_to_test_suite(
     prompt="Do you want to add the file created to git?",
     default=False,
 )
-@need_initialization
 def create_new_quail_integration_test(name: str, conf: bool, git_add: bool):
     """
     For more information, write `Quail integration --help`\n

@@ -6,3 +6,5 @@ pytest==7.1.1
 
 # rich to print with colors and good formatting
 rich==12.2.0
+
+pyyaml==6.0

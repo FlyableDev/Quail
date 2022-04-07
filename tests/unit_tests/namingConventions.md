@@ -4,6 +4,6 @@
 * Starts with <module_name>\_ -> tests the functions and classes of <module_name>
   * ex:  
 
-* Starts with \<type>_ -> tests the 
+* Starts with \<type>_ -> tests the type
   * ex: str_
   * ex: list_

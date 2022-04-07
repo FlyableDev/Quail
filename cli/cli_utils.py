@@ -11,4 +11,4 @@ QUAIL_OK_STYLE = Style()
 
 
 def print_quail_err(error_msg: str, error_name: str = "Error"):
-    console.print(f"Quail ${error_msg}: ${error_msg}", style=QUAIL_ERROR_STYLE)
+    console.print(f"Quail {error_name}: {error_msg}", style=QUAIL_ERROR_STYLE)
