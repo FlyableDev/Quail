@@ -1,0 +1,5 @@
+{
+    "name": "primes",
+    "description": "Quail Integration test 'primes' for the flyable compiler",
+    "main": "main.py"
+}

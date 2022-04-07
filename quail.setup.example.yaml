@@ -1,0 +1,8 @@
+# This file is used by quail to obtain the Flyable library and other settings
+
+config:
+  FLYABLE_DIR: "Your/path/to/Flyable"
+  TARGETED_PLATFORM: "Windows" # "Linux" | "Windows" | "Darwin"
+
+
+
