@@ -34,6 +34,8 @@ def init_if_not_init(ctx, param, value):
             from flyable import FLYABLE_VERSION as FLY_V
 
             FLYABLE_VERSION = FLY_V
+        else:
+            ctx.abort()
 
 
 @click.group(help=HELP)
