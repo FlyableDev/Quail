@@ -4,7 +4,7 @@ from rich.style import Style
 MAIN_HELP_MSG = "Welcome to the Quail CLI helper!"
 
 console = get_console()
-QUAIL_ERROR_STYLE = Style(color="red", underline=True)
+QUAIL_ERROR_STYLE = Style(color="red")
 QUAIL_WARNING_STYLE = Style(color="yellow")
 QUAIL_SUCCESS_STYLE = Style(color="green")
 QUAIL_OK_STYLE = Style()

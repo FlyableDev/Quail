@@ -32,11 +32,12 @@ class IntegrationTestRunner:
         else:
             self.__test_output.test_failure()
 
-    def add_test(self, test: IntegrationTest):
-        if test.name in self.__tests:
-            raise Exception("Duplicate Test")
+    def add_tests(self, *tests: IntegrationTest):
+        for test in tests:
+            if test.name in self.__tests:
+                raise Exception("Duplicate Test")
 
-        self.__tests[test.name] = test
+            self.__tests[test.name] = test
 
     def get_test(self, name: str):
         return self.__tests.get(name, None)

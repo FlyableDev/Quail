@@ -25,6 +25,7 @@ def init_if_not_init(ctx, param, value):
         INITIALIZED = cli_setup.setup_quail()
         if INITIALIZED:
             from flyable import FLYABLE_VERSION as FLY_V
+
             FLYABLE_VERSION = FLY_V
 
 
@@ -34,15 +35,47 @@ def cli():
 
 
 @cli.command(name="run")
-@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
-@click.argument("test", default="ALL")
-def run(test):
-    process = Popen(["pytest", f"./tests/unit_tests/{test if test.upper() != 'ALL' else ''}"])
-    process.communicate()
+@click.option(
+    "--need-init",
+    is_flag=True,
+    callback=init_if_not_init,
+    expose_value=False,
+    is_eager=True,
+)
+@click.argument("test", default="~")  # ~ means all
+@click.option("--unit", "-u", is_flag=True, default=False)
+@click.option("--integration", "-i", is_flag=True, default=False)
+def run(test, unit, integration):
+    if not (unit ^ integration):
+        print_quail_err(
+            "You must choose exactly one between a unit test (-u) and an integration test (-i)."
+        )
+        return
+    if unit:
+        process = Popen(["pytest", f"./tests/unit_tests/{test if test != '~' else ''}"])
+        process.communicate()
+
+    elif integration:
+        from integration.integration_test import load_integration_tests
+        from integration.integration_test_runner import IntegrationTestRunner
+
+        tests = load_integration_tests(
+            f"./tests/integration_tests/{test if test != '~' else ''}"
+        )
+        print(tests)
+        runner = IntegrationTestRunner()
+        runner.add_tests(*tests)
+        runner.run_all_tests()
 
 
 @cli.command(name="new")
-@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
+@click.option(
+    "--need-init",
+    is_flag=True,
+    callback=init_if_not_init,
+    expose_value=False,
+    is_eager=True,
+)
 @click.argument("name")
 @click.option(
     "--blank",
@@ -129,7 +162,13 @@ def set_is_compile(_ctx, _self, choice):
 
 
 @cli.command(name="add")
-@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
+@click.option(
+    "--need-init",
+    is_flag=True,
+    callback=init_if_not_init,
+    expose_value=False,
+    is_eager=True,
+)
 @click.argument("test-suite-name", type=QuailSuiteTestNameType())
 @click.option(
     "--test-name", prompt="Enter the name of your test", type=QuailTestNameType()
@@ -215,7 +254,13 @@ def add_test_to_test_suite(
 
 
 @cli.command(name="integration")
-@click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
+@click.option(
+    "--need-init",
+    is_flag=True,
+    callback=init_if_not_init,
+    expose_value=False,
+    is_eager=True,
+)
 @click.argument("name")
 @click.option(
     "--conf",

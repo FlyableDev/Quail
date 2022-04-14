@@ -66,6 +66,8 @@ class QuailTest:
             constants.PYTHON_3_11_PATH,
             "output.o",
         ]
+        if platform.system() == "Windows":
+            linker_args.append(constants.PYTHON_3_11_DLL_PATH)
 
         p0 = Popen(linker_args, cwd=self.temp_working_dir)
         p0.wait()

@@ -1,4 +1,5 @@
 import json, os
+import platform
 from dataclasses import dataclass, field
 from subprocess import Popen, PIPE
 from io import StringIO
@@ -55,13 +56,16 @@ class IntegrationTest:
 
     def fly_exec(self):
         self.fly_compile()
+        link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
         linker_args = [
-            "gcc",
+            link_path,
             "-flto",
+            constants.PYTHON_3_11_PATH,
             "output.o",
-            constants.LIB_FLYABLE_RUNTIME_PATH,
-            constants.PYTHON_3_10_PATH,
         ]
+        if platform.system() == "Windows":
+            linker_args.append(constants.PYTHON_3_11_DLL_PATH)
+
         p0 = Popen(linker_args, cwd=self.__output_dir)
         p0.wait()
         if p0.returncode != 0:
@@ -89,31 +93,29 @@ class IntegrationTest:
 
 
 def load_integration_tests(base_dir: str):
+    if not os.path.isdir(base_dir):
+        return []
     tests = []
 
-    for test_folder in os.listdir(base_dir):
-        if not os.path.isdir(test_folder):
+    for test_file in os.listdir(base_dir):
+        if os.path.isdir(test_file):
+            tests += load_integration_tests(test_file)
             continue
+        if test_file == const.quail_config_file_name:
+            with open(f"{base_dir}/{test_file}", "r") as f:
+                config_content = json.loads("".join(f.readlines()))
 
-        for file in os.listdir(test_folder):
-            if os.path.isdir(file):
-                continue
+            if not valid_config(config_content):
+                raise Exception(f"Invalid test config in {test_file} test")
 
-            if file == const.quail_config_file_name:
-                with open(f"{test_folder}/{file}", "r") as f:
-                    config_content = json.loads("".join(f.readlines()))
-
-                if not valid_config(config_content):
-                    raise Exception(f"Invalid test config in {test_folder} test")
-
-                tests.append(
-                    IntegrationTest(
-                        config_content["name"],
-                        config_content["description"],
-                        config_content["main"],
-                        test_folder,
-                    )
+            tests.append(
+                IntegrationTest(
+                    config_content["name"],
+                    config_content["description"],
+                    config_content["main"],
+                    base_dir,
                 )
+            )
 
     return tests
 
