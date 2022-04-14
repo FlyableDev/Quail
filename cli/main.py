@@ -2,6 +2,8 @@ import json
 import os
 from functools import wraps
 
+from rich.style import Style
+
 from cli.cli_types import QuailSuiteTestNameType, QuailTestNameType
 from utils.trim import trim
 import setup.quail_setup as cli_setup
@@ -16,6 +18,11 @@ FLYABLE_VERSION: int
 HELP = "Welcome to the Quail maker helper!"
 
 INITIALIZED = False
+
+
+def print_happy(msg: str):
+    print(msg, end=" ")
+    print("\\(^ v ^)/", style=Style(color="blue"))
 
 
 def init_if_not_init(ctx, param, value):
@@ -41,30 +48,43 @@ def cli():
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
-    help="*ignore this option*"
-
+    help="*ignore this option*",
 )
 @click.argument("test", default="~")
-@click.option("--unit", "-u", is_flag=True, default=False, help="Use this flag to run a unit test")
-@click.option("--integration", "-i", is_flag=True, default=False, help="Use this flag to run an integration test")
-def run(test, unit, integration):
-    if not (unit ^ integration):
-        print_quail_err(
-            "You must choose exactly one between a unit test (-u) and an integration test (-i)."
-        )
-        return
-    if unit:
-        process = Popen(["pytest", f"./tests/unit_tests/{test if test != '~' else ''}"])
+@click.option(
+    "--unit",
+    "-u",
+    "mode",
+    flag_value="unit",
+    help="Use this flag to run a unit test",
+)
+@click.option(
+    "--integration",
+    "-i",
+    "mode",
+    flag_value="integration",
+    help="Use this flag to run an integration test",
+)
+@click.option(
+    "--verbose",
+    "-v",
+    is_flag=True,
+    help="Verbose mode",
+)
+def run(test, mode, verbose):
+    if mode == "unit":
+        process = Popen(["pytest", f"./tests/unit_tests{'/' + test if test != '~' else ''}"])
         process.communicate()
 
-    elif integration:
+    elif mode == "integration":
         from integration.integration_test import load_integration_tests
         from integration.integration_test_runner import IntegrationTestRunner
 
         tests = load_integration_tests(
-            f"./tests/integration_tests/{test if test != '~' else ''}"
+            f"./tests/integration_tests{'/' + test if test != '~' else ''}"
         )
-        print(tests)
+        if verbose:
+            print(tests)
         runner = IntegrationTestRunner()
         runner.add_tests(*tests)
         runner.run_all_tests()
@@ -77,8 +97,7 @@ def run(test, unit, integration):
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
-    help="*ignore this option*"
-
+    help="*ignore this option*",
 )
 @click.argument("name")
 @click.option(
@@ -147,7 +166,7 @@ def create_new_quail_integration_test(name: str, blank: bool, git_add: bool):
         )
     if git_add:
         Popen(f"git add ./{path}")
-    click.echo(f"Quail test suite {name!r} created successfully!{u'🥳'}")
+    print_happy(f"Quail test suite {name!r} created successfully!")
 
 
 is_compile = False
@@ -172,8 +191,7 @@ def set_is_compile(_ctx, _self, choice):
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
-    help="*ignore this option*"
-
+    help="*ignore this option*",
 )
 @click.argument("test-suite-name", type=QuailSuiteTestNameType())
 @click.option(
@@ -254,8 +272,8 @@ def add_test_to_test_suite(
                 )
                 + "\n"
             )
-    click.echo(
-        f"Quail test {test_name!r} created successfully in {test_suite_name!r}!{u'🥳'}"
+    print_happy(
+        f"Quail test {test_name!r} created successfully in {test_suite_name!r}!"
     )
 
 
@@ -266,8 +284,7 @@ def add_test_to_test_suite(
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
-    help="*ignore this option*"
-
+    help="*ignore this option*",
 )
 @click.argument("name")
 @click.option(
@@ -320,4 +337,4 @@ def create_new_quail_integration_test(name: str, conf: bool, git_add: bool):
 
     if git_add:
         Popen(f"git add ./{path}")
-    click.echo(f"Quail integration test {name!r} created successfully!{u'🥳'}")
+    print_happy(f"Quail integration test {name!r} created successfully!")

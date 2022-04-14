@@ -98,11 +98,12 @@ def load_integration_tests(base_dir: str):
     tests = []
 
     for test_file in os.listdir(base_dir):
-        if os.path.isdir(test_file):
-            tests += load_integration_tests(test_file)
+        test_file_path = f"{base_dir}/{test_file}"
+        if os.path.isdir(test_file_path):
+            tests += load_integration_tests(test_file_path)
             continue
         if test_file == const.quail_config_file_name:
-            with open(f"{base_dir}/{test_file}", "r") as f:
+            with open(test_file_path, "r") as f:
                 config_content = json.loads("".join(f.readlines()))
 
             if not valid_config(config_content):
