@@ -36,15 +36,17 @@ def cli():
 
 @cli.command(name="run")
 @click.option(
-    "--need-init",
+    "--init-quail",
     is_flag=True,
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
+    help="*ignore this option*"
+
 )
-@click.argument("test", default="~")  # ~ means all
-@click.option("--unit", "-u", is_flag=True, default=False)
-@click.option("--integration", "-i", is_flag=True, default=False)
+@click.argument("test", default="~")
+@click.option("--unit", "-u", is_flag=True, default=False, help="Use this flag to run a unit test")
+@click.option("--integration", "-i", is_flag=True, default=False, help="Use this flag to run an integration test")
 def run(test, unit, integration):
     if not (unit ^ integration):
         print_quail_err(
@@ -70,11 +72,13 @@ def run(test, unit, integration):
 
 @cli.command(name="new")
 @click.option(
-    "--need-init",
+    "--init-quail",
     is_flag=True,
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
+    help="*ignore this option*"
+
 )
 @click.argument("name")
 @click.option(
@@ -163,11 +167,13 @@ def set_is_compile(_ctx, _self, choice):
 
 @cli.command(name="add")
 @click.option(
-    "--need-init",
+    "--init-quail",
     is_flag=True,
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
+    help="*ignore this option*"
+
 )
 @click.argument("test-suite-name", type=QuailSuiteTestNameType())
 @click.option(
@@ -255,11 +261,13 @@ def add_test_to_test_suite(
 
 @cli.command(name="integration")
 @click.option(
-    "--need-init",
+    "--init-quail",
     is_flag=True,
     callback=init_if_not_init,
     expose_value=False,
     is_eager=True,
+    help="*ignore this option*"
+
 )
 @click.argument("name")
 @click.option(
