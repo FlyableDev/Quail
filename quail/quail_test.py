@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+import platform
 from typing import TYPE_CHECKING
 
 from flyable.compiler import Compiler
@@ -24,7 +26,7 @@ class QuailTest:
     lines: list[str] = field(default_factory=list)
     original_lines: list[str] = field(default_factory=list)
 
-    temp_working_dir: str = field(default='generated_scripts', init=False)
+    temp_working_dir: str = field(default="generated_scripts", init=False)
 
     def is_valid_or_raise(self):
         if "Name" not in self.infos:
@@ -57,13 +59,14 @@ class QuailTest:
 
     def fly_exec(self, stdout: StdOut):
         self.fly_compile()
+        link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
         linker_args = [
-            "gcc",
+            link_path,
             "-flto",
+            constants.PYTHON_3_11_PATH,
             "output.o",
-            constants.LIB_FLYABLE_RUNTIME_PATH,
-            constants.PYTHON_3_10_PATH,
         ]
+
         p0 = Popen(linker_args, cwd=self.temp_working_dir)
         p0.wait()
         if p0.returncode != 0:
@@ -73,7 +76,7 @@ class QuailTest:
             [self.temp_working_dir + f"/a.exe"],
             cwd=self.temp_working_dir,
             stdout=PIPE,
-            text=True
+            text=True,
         )
 
         if isinstance(p, str):

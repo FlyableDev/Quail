@@ -37,7 +37,7 @@ def cli():
 @click.option("--need-init", is_flag=True, callback=init_if_not_init, expose_value=False, is_eager=True)
 @click.argument("test", default="ALL")
 def run(test):
-    process = Popen(["pytest", "./tests/unit_tests"])
+    process = Popen(["pytest", f"./tests/unit_tests/{test if test.upper() != 'ALL' else ''}"])
     process.communicate()
 
 
