@@ -16,7 +16,7 @@ import os
 from dataclasses import dataclass, field
 from subprocess import Popen, PIPE
 
-from flyable import constants
+import setup.constants as constants
 from utils.utils import CompilationError
 import shutil
 

@@ -6,10 +6,10 @@ from io import StringIO
 from contextlib import redirect_stdout
 
 from flyable.compiler import Compiler
-from flyable import constants
+import setup.constants as constants
 
 from utils.utils import CompilationError
-import tests.integration.constants as const
+import integration.constants as const
 
 
 @dataclass
@@ -57,12 +57,7 @@ class IntegrationTest:
     def fly_exec(self):
         self.fly_compile()
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
-        linker_args = [
-            link_path,
-            "-flto",
-            constants.PYTHON_3_11_PATH,
-            "output.o",
-        ]
+        linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
         if platform.system() == "Windows":
             linker_args.append(constants.PYTHON_3_11_DLL_PATH)
 
@@ -71,16 +66,21 @@ class IntegrationTest:
         if p0.returncode != 0:
             raise CompilationError("Linking error")
 
+        linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
+        if platform.system() == "Windows":
+            linker_args.append(constants.PYTHON_3_11_DLL_PATH)
         p = Popen(
-            [self.__output_dir + "/a.exe"],
-            cwd=self.__output_dir,
+            [
+                self.__output_dir + f"/a.exe",
+                f"{self.__output_dir}/{self.name}.py",
+            ],
+            cwd=os.path.dirname(constants.PYTHON_PATH),
             stdout=PIPE,
             text=True,
         )
 
         if isinstance(p, str):
             raise CompilationError(p)
-
         result = p.communicate()[0]
         return result
 
