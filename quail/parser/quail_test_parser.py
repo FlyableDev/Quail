@@ -5,7 +5,12 @@ from typing import Any
 from quail.quail_test import QuailTest
 from quail.tags.quail_tag import QuailTag, QuailTagType
 
-_QUAIL_VALID_INFOS: list[str] = ["Name", "Flyable-version", "Description", "Dependencies"]
+_QUAIL_VALID_INFOS: list[str] = [
+    "Name",
+    "Flyable-version",
+    "Description",
+    "Dependencies",
+]
 
 
 class QuailTestState(Enum):
@@ -45,12 +50,19 @@ class QuailTestParser:
             case QuailTestState.Infos:
                 self.__add_info_to_current_quail_test(line)
 
+    def add_line(self, line: str):
+        if self.current_state is not QuailTestState.Body:
+            return
+        self.__add_line_to_current_quail_test(line)
+
     def __new_quail_test(self):
         self.parsed_tests.append(
             QuailTest(self.file_name, temp_working_dir=self.path)
             if self.current_value is None
             # here, current_value is the test mode
-            else QuailTest(self.file_name, self.current_value, temp_working_dir=self.path)
+            else QuailTest(
+                self.file_name, self.current_value, temp_working_dir=self.path
+            )
         )
         self.current_state = QuailTestState.Infos
 
@@ -63,11 +75,15 @@ class QuailTestParser:
 
     def __add_line_to_current_quail_test(self, line: str):
         self.current_test.original_lines.append(line)
-        if not QuailTag.get_tag_match(line, QuailTagType.ASSERT):
-            self.current_test.lines.append(line)
-            return
+        if QuailTag.get_tag_match(line, QuailTagType.ASSERT):
+            line = QuailTag.apply_first_match(self, line, QuailTagType.ASSERT)
 
-        line = QuailTag.apply_first_match(self, line, QuailTagType.ASSERT)
+        elif QuailTag.get_tag_match(line, QuailTagType.MACRO):
+            pass
+
+        else:
+            self.current_test.lines.append(line)
+
         self.current_test.lines.append(line)
 
     def __add_info_to_current_quail_test(self, line):

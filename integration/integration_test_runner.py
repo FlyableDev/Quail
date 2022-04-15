@@ -1,5 +1,5 @@
-from tests.integration.integration_test import IntegrationTest
-from tests.integration.output.test_output import TestOuput
+from integration.integration_test import IntegrationTest
+from integration.output.test_output import TestOuput
 
 
 class IntegrationTestRunner:

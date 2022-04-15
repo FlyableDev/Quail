@@ -155,13 +155,19 @@ def macro_wrap_func(match: re.Match, test: QuailTestParser) -> str:
     line = match.group(1)
     value = match.group(5).strip()
 
-    return trim(
-        f"""
-                try:
-                    {line.strip()}
-                except {value or ""}:
-                    print(True)
-                else:
-                    print(False)
-                """
-    )
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from tests.integration.utils import Style
+from integration.utils import Style
 
 if TYPE_CHECKING:
-	from tests.integration.integration_test_runner import IntegrationTestRunner as TestRunner
+	from integration.integration_test_runner import IntegrationTestRunner as TestRunner
 
 style_print = Style.style_print
 
