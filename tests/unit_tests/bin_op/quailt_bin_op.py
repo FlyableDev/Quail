@@ -1,4 +1,4 @@
-"""Module where equality body tests are created"""
+"""Module where bin_op tests are created"""
 
 # Quail-test:new
 """
