@@ -26,7 +26,10 @@ class QuailTest:
     lines: list[str] = field(default_factory=list)
     original_lines: list[str] = field(default_factory=list)
 
-    temp_working_dir: str = field(default="generated_scripts", init=False)
+    temp_working_dir: str = field(default=None)
+
+    def __post_init__(self):
+        self.temp_working_dir += "/generated_scripts"
 
     def is_valid_or_raise(self):
         if "Name" not in self.infos:

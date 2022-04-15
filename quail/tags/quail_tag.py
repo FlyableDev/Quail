@@ -9,10 +9,10 @@ if TYPE_CHECKING:
 from enum import Enum, auto
 
 # trust me, it works
-_QUAIL_TAG = r"(.*?)(# *Quail-)(.*?)(?: *: *)(.*?)(?: +|$)(.*)"
+_QUAIL_TAG = r"(.*?)(# *Q(?:uail)?-)(.*?)(?: *: *)(.*?)(?: +|$)(.*)"
 """Groups:\n
 1 -> the line before the quail tag starts\n
-2 -> the '# Quail-' part of the tag\n
+2 -> the '# Quail-' (or '# Q-') part of the tag\n
 3 -> the name of the tag type (between the '-' and the ':')\n
 4 -> the name of tag (what's after the ':')\n
 5 -> the content of the tag (what's after the tag name)\n
@@ -20,6 +20,10 @@ _QUAIL_TAG = r"(.*?)(# *Quail-)(.*?)(?: *: *)(.*?)(?: +|$)(.*)"
 
 
 class QuailTagType(Enum):
+    """
+    A QuailTagType is what comes after '# Quail-' (or '# Q-')
+    """
+
     TEST = auto()
     """
     Type of quail tag found on an otherwise empty line.\n
@@ -29,7 +33,12 @@ class QuailTagType(Enum):
     ASSERT = auto()
     """
     Type of quail tag found at the end of a line containing a python expression.\n 
-    It modifies the line to include a test
+    It modifies the line to include an assertion
+    """
+
+    MACRO = auto()
+    """
+    Type of quail tag used to modify the code (often multiple lines)
     """
 
     @property
@@ -49,7 +58,8 @@ class QuailTag:
         match = re.match(_QUAIL_TAG, line)
         return (
             match
-            if match and (quail_tag_type is None or match.group(3) == quail_tag_type.tag_type)
+            if match
+               and (quail_tag_type is None or match.group(3) == quail_tag_type.tag_type)
             else None
         )
 

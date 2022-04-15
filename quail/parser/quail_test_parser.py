@@ -19,6 +19,7 @@ class QuailTestState(Enum):
 @dataclass
 class QuailTestParser:
     file_name: str
+    path: str
     current_state: QuailTestState = QuailTestState.None_
     parsed_tests: list[QuailTest] = field(default_factory=list)
     current_value: Any = None
@@ -46,10 +47,10 @@ class QuailTestParser:
 
     def __new_quail_test(self):
         self.parsed_tests.append(
-            QuailTest(self.file_name)
+            QuailTest(self.file_name, temp_working_dir=self.path)
             if self.current_value is None
             # here, current_value is the test mode
-            else QuailTest(self.file_name, self.current_value)
+            else QuailTest(self.file_name, self.current_value, temp_working_dir=self.path)
         )
         self.current_state = QuailTestState.Infos
 

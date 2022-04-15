@@ -133,6 +133,7 @@ def create_new_quail_integration_test(name: str, blank: bool, git_add: bool):
     with open(f"{path}/quailt_{name}.py", "w+") as body:
         msg = f'"""Module {name}"""\n\n'
         if blank:
+            # TODO add => Quail-macro:wrap-func test
             msg += (
                     trim(
                         f'''
@@ -143,9 +144,8 @@ def create_new_quail_integration_test(name: str, blank: bool, git_add: bool):
                     Description: YOUR_DESCRIPTION
                     """
                     # Quail-test:start
-                    def test():
-                        "hello world!" == "hello world!"  # Quail-assert: True
-                    test()
+                    "hello world!" == "hello world!"  # Quail-assert: True
+                    
                     # Quail-test:end
                     '''
                     )

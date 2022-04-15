@@ -31,6 +31,9 @@ def load():
     QuailTag(
         tag_name="False", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_eq_False
     )
+    QuailTag(
+        tag_name="wrap-func", quail_tag_type=QuailTagType.MACRO, apply=macro_wrap_func
+    )
 
 
 # ********************** start test tag functions **********************
@@ -79,14 +82,14 @@ def tag_end(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any
     return quailtest.QuailTestState.None_, None
 
 
-# ********************** start test tag functions **********************
+# ********************** end test tag functions **********************
 
 
 # ********************** start assert tag functions **********************
 
 
 def get_indent(line: str):
-    return line[:line.index(line.strip()[0])]
+    return line[: line.index(line.strip()[0])]
 
 
 def __indented(func):
@@ -94,7 +97,7 @@ def __indented(func):
     def inner(match: re.Match, test: QuailTestParser):
         indent = get_indent(match.group(1))
         line = func(match, test)
-        return "\n".join(indent + line for line in line.split("\n"))
+        return "\n".join(indent + line for line in line.split("\n")) + "\n"
 
     return inner
 
@@ -102,26 +105,26 @@ def __indented(func):
 @__indented
 def assert_tag_empty(match: re.Match, test: QuailTestParser) -> str:
     line = match.group(1)
-    return f"print(({line.strip()}))\n"
+    return f"print(({line.strip()}))"
 
 
 @__indented
 def assert_tag_eq(match: re.Match, test: QuailTestParser) -> str:
     line = match.group(1)
     value = match.group(5).strip()
-    return f"print(({line.strip()}) == ({value}))\n"
+    return f"print(({line.strip()}) == ({value}))"
 
 
 @__indented
 def assert_tag_eq_True(match: re.Match, test: QuailTestParser) -> str:
     line = match.group(1)
-    return f"print(({line.strip()}) == True)\n"
+    return f"print(({line.strip()}) == True)"
 
 
 @__indented
 def assert_tag_eq_False(match: re.Match, test: QuailTestParser) -> str:
     line = match.group(1)
-    return f"print(({line.strip()}) == False)\n"
+    return f"print(({line.strip()}) == False)"
 
 
 @__indented
@@ -130,8 +133,8 @@ def assert_tag_raises(match: re.Match, test: QuailTestParser) -> str:
     value = match.group(5).strip()
 
     return (
-            trim(
-                f"""
+        trim(
+            f"""
                 try:
                     {line.strip()}
                 except {value or ""}:
@@ -139,8 +142,26 @@ def assert_tag_raises(match: re.Match, test: QuailTestParser) -> str:
                 else:
                     print(False)
                 """
-            )
-            + "\n"
+        )
+        + "\n"
     )
 
+
 # ********************** end assert tag functions **********************
+
+# ********************** start macro tag functions **********************
+@__indented
+def macro_wrap_func(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    value = match.group(5).strip()
+
+    return trim(
+        f"""
+                try:
+                    {line.strip()}
+                except {value or ""}:
+                    print(True)
+                else:
+                    print(False)
+                """
+    )

@@ -1,9 +1,10 @@
-* Starts with builtin_<builtin_name>_ -> tests a builtin function
-  * ex: builtin_len_
+## Quail Unit Tests Naming Convention
 
-* Starts with <module_name>\_ -> tests the functions and classes of <module_name>
-  * ex:  
+### Name of the quail test
 
-* Starts with \<type>_ -> tests the type
-  * ex: str_
-  * ex: list_
+### Name of the unit test suite
+
+* \<type> -> tests the type alone and conversion from builtin
+    
+
+
