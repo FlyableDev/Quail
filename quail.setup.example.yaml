@@ -2,6 +2,7 @@
 
 config:
   FLYABLE_DIR: "../Flyable/flyable"
+  PYTHON_PATH: "C:/Users/Poste/AppData/Local/Programs/Python/Python310/python.exe"
   TARGETED_PLATFORM: "Windows" # "Linux" | "Windows" | "Darwin"
 
 

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import platform
+import sys
 from typing import TYPE_CHECKING
 
 from flyable.compiler import Compiler
 from quail.testers.compiler_tester import FlyCompilerTester
+from setup.constants import PYTHON_PATH
 
 if TYPE_CHECKING:
     from utils.utils import StdOut
@@ -16,6 +18,7 @@ from subprocess import Popen, PIPE
 
 from flyable import constants
 from utils.utils import CompilationError
+import shutil
 
 
 @dataclass
@@ -42,6 +45,9 @@ class QuailTest:
         temp_working_dir = self.temp_working_dir
         if not os.path.exists(temp_working_dir):
             os.makedirs(temp_working_dir)
+        if not os.path.exists(f"{temp_working_dir}/python311.dll"):
+            shutil.copy2(constants.PYTHON_3_11_DLL_PATH, temp_working_dir)
+
         function_file_temp_path = f"{temp_working_dir}/{self.name}.py"
         with open(function_file_temp_path, "w+") as python_file:
             python_file.write("".join(self.lines))
@@ -63,12 +69,7 @@ class QuailTest:
     def fly_exec(self, stdout: StdOut):
         self.fly_compile()
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
-        linker_args = [
-            link_path,
-            "-flto",
-            constants.PYTHON_3_11_PATH,
-            "output.o",
-        ]
+        linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
         if platform.system() == "Windows":
             linker_args.append(constants.PYTHON_3_11_DLL_PATH)
 
@@ -77,9 +78,15 @@ class QuailTest:
         if p0.returncode != 0:
             raise CompilationError("Linking error")
 
+        linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
+        if platform.system() == "Windows":
+            linker_args.append(constants.PYTHON_3_11_DLL_PATH)
         p = Popen(
-            [self.temp_working_dir + f"/a.exe"],
-            cwd=self.temp_working_dir,
+            [
+                self.temp_working_dir + f"/a.exe",
+                f"{self.temp_working_dir}/{self.name}.py",
+            ],
+            cwd=os.path.dirname(PYTHON_PATH),
             stdout=PIPE,
             text=True,
         )

@@ -5,6 +5,8 @@ from _pytest.nodes import Item
 from _pytest.reports import CollectReport, TestReport
 from _pytest.runner import CallInfo
 
+from quail.config.quail_test_mode import QuailTestMode
+
 if TYPE_CHECKING:
     from _pytest.mark.structures import Node, Mark
 
@@ -97,7 +99,7 @@ def quail_runtimes_tester(
     include: list[str] = None,
     exclude: list[str] = None,
     strict: bool = False,
-    mode: str = "",
+    mode: QuailTestMode = QuailTestMode.FP_STDOUT_COMPARE,
 ):
     """
     This method wraps an empty method and will test the execution of every quail test found

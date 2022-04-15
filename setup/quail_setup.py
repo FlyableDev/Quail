@@ -11,6 +11,8 @@ from rich.style import Style
 import yaml
 import importlib.util as imp_util
 
+from setup import constants
+
 console = get_console()
 QUAIL_ERROR_STYLE = Style(color="red")
 
@@ -33,18 +35,24 @@ def __load_flyable():
         return False
 
 
+def __load_python_path():
+    python_path: str = __CONFIG["config"]["PYTHON_PATH"]
+    constants.set_python_path(python_path)
+    return True
+
+
 def __setup(config_file: str) -> bool:
     global __CONFIG
     with open(config_file, "r") as f:
         __CONFIG = yaml.full_load(f)
     if not len(__CONFIG):
         return False
-    return __load_flyable()
+    return all((__load_flyable(), __load_python_path()))
 
 
 def setup_quail(
-    setup_file_path: str = "quail.setup.yaml",
-    example_setup_file_path="quail.setup.example.yaml",
+        setup_file_path: str = "quail.setup.yaml",
+        example_setup_file_path="quail.setup.example.yaml",
 ) -> bool:
     if not os.path.exists(setup_file_path):
         print_quail_err(f"Required setup file {setup_file_path!r} was not found.")
