@@ -104,12 +104,54 @@ person = {
 
 # Quail-test:new
 """
-Name: NamedExpr
+Name: Set
 Flyable-version: v0.1a1
-Description: Test the named expression operator (also known as walrus operator)
+Description: Test the python set
 """
 # Quail-test:start
-
+set1 = set()
+set1 # Quail-assert: eq {}
+set1 = {1}
+set1 # Quail-assert: eq {}
+set1.add(2)
+set1.add(2)
+set1 # Quail-assert: eq {1, 2}
+set1.clear()
+set1 # Quail-assert: eq {}
+set1 = {2, 2, 3}
+set1.discard(2)
+set1 # Quail-assert: eq {3}
+# Discarding non-existing element
+set1.discard(10)
+set1 # Quail-assert: eq {3}
+set1.clear()
+set1 = {1, 2, 3, 4}
+set1.intersection({2, 3, 5}) # Quail-assert: eq {2, 3}
+set1.intersection_update({2})
+set1 # Quail-assert: eq {2}
+set1 = {1, 2, 3}
+set1.difference({0, 1, 2, 3, 4}) # Quail-assert: eq {0, 4}
+set1.difference_update({ 0, 1, 2, 3, 4})
+set1 # Quail-assert: eq {0, 4}
+set1 = {1, 2, 3}
+set1.isdisjoint({0, 4, 5}) # Quail-assert: eq True
+set1.isdisjoint({0, 2, 4}) # Quail-assert: eq False
+set1.issubset({0, 2, 1, 3, 4}) # Quail-assert: eq True
+set1.issubset({0, 1, 2}) # Quail-assert: eq False
+set1.issuperset({1, 2}) # Quail-assert: eq True
+set1.issuperset({}) # Quail-assert: eq True
+set1.issuperset({3, 4}) # Quail-assert: eq False
+set1.pop() # Quail-assert: eq 3
+set1 # Quail-assert: eq {2, 3}
+set1 = {1, 2, 3}
+set1.symmetric_difference({1, 4, 5}) # Quail-assert: eq {2, 3, 4, 5}
+set1.symmetric_difference({}) # Quail-assert: eq set1
+set1.symmetric_difference_update({1, 4, 5})
+set1 # Quail-assert: eq {2, 3, 4, 5}
+set1 = {1, 2, 3}
+set1.union({1, 3, 4, 5, 6}) # Quail-assert: eq {1, 2, 3, 4, 5, 6}
+set1.update({1, 3, 4, 5, 6})
+set1 # Quail-assert: eq {1, 2, 3, 4, 5, 6}
 # Quail-test:end
 
 
