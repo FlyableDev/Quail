@@ -1,5 +1,6 @@
 from os import path
 
+from quail.parser.post_parser import PostQuailTestParser
 from quail.parser.quail_test_parser import QuailTestParser
 
 
@@ -14,5 +15,6 @@ def parse_quailt_file(file_path: str):
 
     for test in test_parser.parsed_tests:
         test.is_valid_or_raise()
+        PostQuailTestParser(test).post_parse()
 
     return {test.name: test for test in test_parser.parsed_tests}

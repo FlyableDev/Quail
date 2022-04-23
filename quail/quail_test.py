@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import platform
-import sys
 from typing import TYPE_CHECKING
 
 from flyable.compiler import Compiler
@@ -19,6 +18,7 @@ from subprocess import Popen, PIPE
 import setup.constants as constants
 from utils.utils import CompilationError
 import shutil
+from quail.constants import QUAIL_VALID_INFOS
 
 
 @dataclass
@@ -35,8 +35,14 @@ class QuailTest:
         self.temp_working_dir += "/generated_scripts"
 
     def is_valid_or_raise(self):
-        if "Name" not in self.infos:
-            raise AttributeError("Each test must have a Name")
+        for info, required in QUAIL_VALID_INFOS.items():
+            if not required:
+                continue
+            if info not in self.infos:
+                raise AttributeError(
+                    f"Missing {info!r}. Each test must have: \n"
+                    f"{repr(QUAIL_VALID_INFOS).replace('True', '[Required]').replace('False', '[Optional]')}"
+                )
 
     def py_compile(self):
         return compile("".join(self.lines), self.file_name, "exec")
@@ -110,3 +116,7 @@ class QuailTest:
     @property
     def name(self):
         return self.infos["Name"]
+
+    @property
+    def flyable_version(self) -> str:
+        return self.infos["Flyable-version"]
