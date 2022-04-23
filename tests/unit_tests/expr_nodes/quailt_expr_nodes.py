@@ -140,8 +140,8 @@ d1.update(d2)
 d1  # Quail-assert: eq {1: 10, 2: 20, 3: 30, 4: 40}
 d2  # Quail-assert: eq {3: 30, 4: 40}
 
-len(d1)  # Quail-assert: eq: 4
-len({})  # Quail-assert: eq: 0
+len(d1)  # Quail-assert: eq 4
+len({})  # Quail-assert: eq 0
 
 # Quail-test:end
 

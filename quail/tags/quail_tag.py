@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from sys import stderr
 from typing import TYPE_CHECKING, Callable, Any, Optional
 
 if TYPE_CHECKING:
@@ -84,8 +85,15 @@ class QuailTag:
         for quail_tag in quail_tags:
             if quail_tag.tag_matches(line):
                 return quail_tag.apply(match, quail_test_parser)
+        wrong_tag = match.group(4)
+        print("-" * 10 +
+              f"\nThere are no Quail tag named {wrong_tag!r} in tag type {quail_tag_type.name!r}.\n"
+              f"In test {quail_test_parser.current_test.name!r}. Line:\n"
+              f"{line!r}\n" +
+              ' ' * (line.index(wrong_tag) + 1) + '~' * len(wrong_tag) + "\n" +
+              "-" * 10, file=stderr)
         raise NameError(
-            f"There are no Quail tag named {match.group(4)}) in type {quail_tag_type.name}"
+            f"There are no Quail tag named {wrong_tag!r} in tag type {quail_tag_type.name!r}."
         )
 
     def __init__(

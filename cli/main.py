@@ -91,6 +91,9 @@ def run(test, mode, verbose):
         runner.add_tests(*tests)
         runner.run_all_tests()
 
+    else:
+        print_quail_err("You must add -u (unit test) or -i (integration test) before the name of your test suite.")
+
 
 @cli.command(name="new")
 @click.option(
