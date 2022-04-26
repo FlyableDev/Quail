@@ -269,6 +269,17 @@ Flyable-version: v0.1a1
 Description: Test the await expression
 """
 # Quail-test:start
+import asyncio
+
+async def functionality():
+    return True
+
+async def test_functionality():
+    return await functionality()
+
+loop = asyncio.get_event_loop()
+coroutine = test_functionality()
+loop.run_until_complete(coroutine) # Quail-assert: eq True
 # Quail-test:end
 
 
@@ -279,6 +290,20 @@ Flyable-version: v0.1a1
 Description: Test the yield expression
 """
 # Quail-test:start
+# A simple generator function
+def my_gen():
+    """A generator that fakes a read from a file, socket, etc."""
+    for i in range(4):
+        yield i + 1
+
+a = my_gen()
+next(a) # Quail-assert: eq 1
+next(a) # Quail-assert: eq 2
+next(a) # Quail-assert: eq 3
+next(a) # Quail-assert: eq 4
+next(a) # Quail-assert: eq 4
+a = my_gen()
+next(a) # Quail-assert: eq 1
 # Quail-test:end
 
 
@@ -289,6 +314,19 @@ Flyable-version: v0.1a1
 Description: Test the YieldFrom expression
 """
 # Quail-test:start
+def reader():
+    """A generator that fakes a read from a file, socket, etc."""
+    for i in range(4):
+        yield i + 1
+
+def reader_wrapper(g):
+    yield from g
+
+wrap = reader_wrapper(reader())
+next(wrap) # Quail-assert: eq 1
+next(wrap) # Quail-assert: eq 2
+next(wrap) # Quail-assert: eq 3
+next(wrap) # Quail-assert: eq 4
 # Quail-test:end
 
 
@@ -299,6 +337,74 @@ Flyable-version: v0.1a1
 Description: Test the compare expression
 """
 # Quail-test:start
+
+# Eq
+True == True # Quail-assert: eq True
+False == True # Quail-assert: eq False
+
+# NotEq
+True != False # Quail-assert: eq True
+True != True # Quail-assert: eq False
+
+# Lt
+5 < 10 # Quail-assert: eq True
+5 < 5 # Quail-assert: eq False
+10.2 < 5.4 # Quail-assert: eq False
+10.2 < 10.2 # Quail-assert: eq False
+
+# LtE
+5 <= 10 # Quail-assert: eq True
+5 <= 5 # Quail-assert: eq True
+10.2 <= 5.4 # Quail-assert: eq False
+10.2 <= 10.2 # Quail-assert: eq True
+
+# Gt
+5 > 10 # Quail-assert: eq False
+5 > 5 # Quail-assert: eq False
+10.2 > 5.4 # Quail-assert: eq True
+10.2 > 10.2 # Quail-assert: eq False
+
+# GtE
+5 >= 10 # Quail-assert: eq False
+5 >= 5 # Quail-assert: eq True
+10.2 >= 5.4 # Quail-assert: eq True
+10.2 >= 10.2 # Quail-assert: eq True
+
+# Is && IsNot
+x = [2, 3]
+y = [2, 3]
+x is x # Quail-assert: eq True
+x is not x # Quail-assert: eq False
+x is y # Quail-assert: eq False
+x is not y # Quail-assert: eq True
+True is True # Quail-assert: eq True
+True is not True # Quail-assert: eq False
+True is False # Quail-assert: eq False
+True is not False # Quail-assert: eq True
+
+# In
+x = [2, 3]
+y = (2, 3)
+z = {2, 3}
+a = {1: 5, 2: 5}
+2 in x # Quail-assert: eq True
+5 in x # Quail-assert: eq False
+2 in y # Quail-assert: eq True
+5 in y # Quail-assert: eq False
+2 in z # Quail-assert: eq True
+5 in z # Quail-assert: eq False
+2 in a # Quail-assert: eq True
+5 in a # Quail-assert: eq False
+
+# NotIn
+2 not in x # Quail-assert: eq False
+5 not in x # Quail-assert: eq True
+2 not in y # Quail-assert: eq False
+5 not in y # Quail-assert: eq True
+2 not in z # Quail-assert: eq False
+5 not in z # Quail-assert: eq True
+2 not in a # Quail-assert: eq False
+5 not in a # Quail-assert: eq True
 # Quail-test:end
 
 
@@ -309,6 +415,17 @@ Flyable-version: v0.1a1
 Description: Test the call expression (function call)
 """
 # Quail-test:start
+class Foo:
+    def __str__(self) -> str:
+        return "Hey!"
+
+def foo():
+    return True
+
+foo() # Quail-assert: eq True
+
+bar = Foo()
+str(bar) # Quail-assert: eq "Hey!"
 # Quail-test:end
 
 
