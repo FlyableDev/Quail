@@ -1,24 +1,9 @@
 from dataclasses import dataclass, field
-from enum import Enum, auto
 from typing import Any
 
+from quail.constants import QUAIL_VALID_INFOS, QuailTestState
 from quail.quail_test import QuailTest
 from quail.tags.quail_tag import QuailTag, QuailTagType
-
-_QUAIL_VALID_INFOS: list[str] = [
-    "Name",
-    "Flyable-version",
-    "Description",
-    "Dependencies",
-]
-
-
-class QuailTestState(Enum):
-    New = auto()
-    Infos = auto()
-    Start = auto()
-    Body = auto()
-    None_ = auto()
 
 
 @dataclass
@@ -37,7 +22,7 @@ class QuailTestParser:
         if QuailTag.get_tag_match(line, QuailTagType.TEST):
             self.__change_state(line)
 
-        match self.current_state:  # type: ignore
+        match self.current_state:
             case QuailTestState.None_:
                 return
             case QuailTestState.New:
@@ -49,6 +34,9 @@ class QuailTestParser:
                 self.__add_line_to_current_quail_test(line)
             case QuailTestState.Infos:
                 self.__add_info_to_current_quail_test(line)
+            case QuailTestState.End:
+                self.current_state = QuailTestState.None_
+                return
 
     def add_line(self, line: str):
         if self.current_state is not QuailTestState.Body:
@@ -82,7 +70,7 @@ class QuailTestParser:
             pass
 
         else:
-            self.current_test.lines.append(line)
+            pass
 
         self.current_test.lines.append(line)
 
@@ -92,6 +80,6 @@ class QuailTestParser:
         info_name, info_content = line.split(":", 1)
         info_name = info_name.strip()
         info_content = info_content.strip()
-        if info_name not in _QUAIL_VALID_INFOS:
+        if info_name not in QUAIL_VALID_INFOS:
             raise NameError(f"Invalid info flag ({info_name}) for QuailTest")
         self.current_test.infos[info_name] = info_content

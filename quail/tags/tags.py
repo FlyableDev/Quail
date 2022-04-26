@@ -3,11 +3,14 @@ from __future__ import annotations
 from functools import wraps
 from typing import TYPE_CHECKING
 
+import quail.constants
 from quail.tags.quail_tag import QuailTag, QuailTagType
+from quail.utils.indenter import __indented
 from utils.trim import trim
 
 if TYPE_CHECKING:
-    from quail.parser.quail_test_parser import QuailTestParser, QuailTestState
+    from quail.parser.quail_test_parser import QuailTestParser
+    from quail.constants import QuailTestState
 
 import re
 from typing import Any
@@ -40,7 +43,7 @@ def load():
 
 
 def tag_new(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
-    if test.current_state is not quailtest.QuailTestState.None_:
+    if test.current_state is not quail.constants.QuailTestState.None_:
         raise ValueError("You must end a test before starting a new one")
 
     args = match.group(5).strip().split()
@@ -55,11 +58,11 @@ def tag_new(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any
             result = args[0]
         else:
             raise NameError(f"Unknown argument for the new tag ({args[0]})")
-    return quailtest.QuailTestState.New, result
+    return quail.constants.QuailTestState.New, result
 
 
 def tag_start(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
-    if test.current_state is quailtest.QuailTestState.None_:
+    if test.current_state is quail.constants.QuailTestState.None_:
         raise ValueError("You must create a test before defining its body")
 
     args = match.group(5).strip().split()
@@ -67,11 +70,11 @@ def tag_start(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, A
         raise AttributeError(
             f"Too many arguments passed to the tag new (passed {len(args)})"
         )
-    return quailtest.QuailTestState.Start, None
+    return quail.constants.QuailTestState.Start, None
 
 
 def tag_end(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
-    if test.current_state is not quailtest.QuailTestState.Body:
+    if test.current_state is not quail.constants.QuailTestState.Body:
         raise ValueError("You must create a test before defining its body")
 
     args = match.group(5).strip().split()
@@ -79,28 +82,13 @@ def tag_end(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any
         raise AttributeError(
             f"Too many arguments passed to the tag new (passed {len(args)})"
         )
-    return quailtest.QuailTestState.None_, None
+    return quail.constants.QuailTestState.End, None
 
 
 # ********************** end test tag functions **********************
 
 
 # ********************** start assert tag functions **********************
-
-
-def get_indent(line: str):
-    return line[: line.index(line.strip()[0])]
-
-
-def __indented(func):
-    @wraps(func)
-    def inner(match: re.Match, test: QuailTestParser):
-        indent = get_indent(match.group(1))
-        line = func(match, test)
-        return "\n".join(indent + line for line in line.split("\n")) + "\n"
-
-    return inner
-
 
 @__indented
 def assert_tag_empty(match: re.Match, test: QuailTestParser) -> str:

@@ -36,7 +36,7 @@ Description: Test the named expression operator (also known as walrus operator)
 """
 # Quail-test:start
 print(walrus := True)
-walrus # Quail-assert: eq True
+walrus  # Quail-assert: eq True
 
 # TODO: Add more walrus tests
 
@@ -54,16 +54,16 @@ Description: Test the UnaryOp (UAdd, USub, Not, Invert)
 # TODO: UAdd operator
 # TODO: USub operator
 
-not True # Quail-assert: eq False
-not False # Quail-assert: eq True
-not 1 # Quail-assert: eq False
-not 0 # Quail-assert: eq True
+not True  # Quail-assert: eq False
+not False  # Quail-assert: eq True
+not 1  # Quail-assert: eq False
+not 0  # Quail-assert: eq True
 
-~True # Quail-assert: eq -2
-~False # Quail-assert: eq -1
-~1 # Quail-assert: eq -2
-~0 # Quail-assert: eq -1
-~-20 # Quail-assert: eq 19
+~True  # Quail-assert: eq -2
+~False  # Quail-assert: eq -1
+~1  # Quail-assert: eq -2
+~0  # Quail-assert: eq -1
+~-20  # Quail-assert: eq 19
 # Quail-test:end
 
 
@@ -75,11 +75,11 @@ Description: Test the lambda expressions
 """
 # Quail-test:start
 isTrue = lambda x: x == True
-isTrue(6) # Quail-assert: eq True
-isTrue(9) # Quail-assert: eq False
+isTrue(6)  # Quail-assert: eq True
+isTrue(9)  # Quail-assert: eq False
 
 raise_to_power = lambda x, y: x ** y
-raise_to_power(2, 3) # Quail-assert: eq 8
+raise_to_power(2, 3)  # Quail-assert: eq 8
 # Quail-test:end
 
 
@@ -91,57 +91,57 @@ Description: Test the dictionnary creation and unpacking
 """
 # Quail-test:start
 dict = dict()
-dict # Quail-assert: eq {}
+dict  # Quail-assert: eq {}
 
 dict = {}
-dict # Quail-assert: eq {}
+dict  # Quail-assert: eq {}
 
 dict = {"test": 1, 2: "True", 4.5: True, False: []}
-dict # Quail-assert: eq {'test': 1, 2: 'True', 4.5: True, False: []}
+dict  # Quail-assert: eq {'test': 1, 2: 'True', 4.5: True, False: []}
 
-dict.clear() # Quail-assert: eq {}
+dict.clear()  # Quail-assert: eq {}
 
 person = {
-  "name": "Albert",
-  "age": 40,
-  "lastName": "Smith"
+    "name": "Albert",
+    "age": 40,
+    "lastName": "Smith"
 }
-person['name'] # Quail-assert: eq "Albert"
-person.get('name') # Quail-assert: eq "Albert"
-'name' in person # Quail-assert: eq True
-'birth' in person # Quail-assert: eq False
-person.keys() # Quail-assert: eq dict_keys(['name', 'age'])
-person.values() # Quail-assert: eq dict_values(['Albert', 40])
-person.pop("name") # Quail-assert: eq "Albert"
-person # Quail-assert: eq {'age': 40, 'lastName': 'Smith'}
-person.popitem() # Quail-assert: eq ('lastName', 'Smith')
-person # Quail-assert: eq {'lastName': 'Smith'}
+person['name']  # Quail-assert: eq "Albert"
+person.get('name')  # Quail-assert: eq "Albert"
+'name' in person  # Quail-assert: eq True
+'birth' in person  # Quail-assert: eq False
+person.keys()  # Quail-assert: eq dict_keys(['name', 'age'])
+person.values()  # Quail-assert: eq dict_values(['Albert', 40])
+person.pop("name")  # Quail-assert: eq "Albert"
+person  # Quail-assert: eq {'age': 40, 'lastName': 'Smith'}
+person.popitem()  # Quail-assert: eq ('lastName', 'Smith')
+person  # Quail-assert: eq {'lastName': 'Smith'}
 person.setdefault("birth", "2000")
-person['birth'] # Quail-assert: eq "2000"
+person['birth']  # Quail-assert: eq "2000"
 person.update()
 
 person = {
-  "name": "Albert",
-  "lastName": "Smith",
-  "age": 40
+    "name": "Albert",
+    "lastName": "Smith",
+    "age": 40
 }
-person.popitem() # Quail-assert: eq ('age', 41)
+person.popitem()  # Quail-assert: eq ('age', 41)
 
-regions = dict.fromkeys({ "Canada", "USA"}, "Country") 
-regions # Quail-assert: eq {'USA': 'Country', 'Canada': 'Country'}
-x = regions.items() # Quail-assert: eq []
+regions = dict.fromkeys({"Canada", "USA"}, "Country")
+regions  # Quail-assert: eq {'USA': 'Country', 'Canada': 'Country'}
+x = regions.items()  # Quail-assert: eq []
 regions["Europe"] = "Continent"
-x # Quail-assert: eq dict_items([('USA', 'Country'), ('Canada', 'Country'), ('Europe', 'Continent')])
+x  # Quail-assert: eq dict_items([('USA', 'Country'), ('Canada', 'Country'), ('Europe', 'Continent')])
 
 d1 = {1: 10, 2: 20}
 d2 = {3: 30, 4: 40}
 
 d1.update(d2)
-d1 # Quail-assert: eq {1: 10, 2: 20, 3: 30, 4: 40}
-d2 # Quail-assert: eq {3: 30, 4: 40}
+d1  # Quail-assert: eq {1: 10, 2: 20, 3: 30, 4: 40}
+d2  # Quail-assert: eq {3: 30, 4: 40}
 
-len(d1) # Quail-assert: eq: 4
-len({}) # Quail-assert: eq: 0
+len(d1)  # Quail-assert: eq 4
+len({})  # Quail-assert: eq 0
 
 # Quail-test:end
 
@@ -154,48 +154,48 @@ Description: Test the python set
 """
 # Quail-test:start
 set1 = set()
-set1 # Quail-assert: eq {}
+set1  # Quail-assert: eq {}
 set1 = {1}
-set1 # Quail-assert: eq {}
+set1  # Quail-assert: eq {}
 set1.add(2)
 set1.add(2)
-set1 # Quail-assert: eq {1, 2}
+set1  # Quail-assert: eq {1, 2}
 set1.clear()
-set1 # Quail-assert: eq {}
+set1  # Quail-assert: eq {}
 set1 = {2, 2, 3}
 set1.discard(2)
-set1 # Quail-assert: eq {3}
+set1  # Quail-assert: eq {3}
 # Discarding non-existing element
 set1.discard(10)
-set1 # Quail-assert: eq {3}
+set1  # Quail-assert: eq {3}
 set1.clear()
 set1 = {1, 2, 3, 4}
-set1.intersection({2, 3, 5}) # Quail-assert: eq {2, 3}
+set1.intersection({2, 3, 5})  # Quail-assert: eq {2, 3}
 set1.intersection_update({2})
-set1 # Quail-assert: eq {2}
+set1  # Quail-assert: eq {2}
 set1 = {1, 2, 3}
-set1.difference({0, 1, 2, 3, 4}) # Quail-assert: eq {0, 4}
-set1.difference_update({ 0, 1, 2, 3, 4})
-set1 # Quail-assert: eq {0, 4}
+set1.difference({0, 1, 2, 3, 4})  # Quail-assert: eq {0, 4}
+set1.difference_update({0, 1, 2, 3, 4})
+set1  # Quail-assert: eq {0, 4}
 set1 = {1, 2, 3}
-set1.isdisjoint({0, 4, 5}) # Quail-assert: eq True
-set1.isdisjoint({0, 2, 4}) # Quail-assert: eq False
-set1.issubset({0, 2, 1, 3, 4}) # Quail-assert: eq True
-set1.issubset({0, 1, 2}) # Quail-assert: eq False
-set1.issuperset({1, 2}) # Quail-assert: eq True
-set1.issuperset({}) # Quail-assert: eq True
-set1.issuperset({3, 4}) # Quail-assert: eq False
-set1.pop() # Quail-assert: eq 3
-set1 # Quail-assert: eq {2, 3}
+set1.isdisjoint({0, 4, 5})  # Quail-assert: eq True
+set1.isdisjoint({0, 2, 4})  # Quail-assert: eq False
+set1.issubset({0, 2, 1, 3, 4})  # Quail-assert: eq True
+set1.issubset({0, 1, 2})  # Quail-assert: eq False
+set1.issuperset({1, 2})  # Quail-assert: eq True
+set1.issuperset({})  # Quail-assert: eq True
+set1.issuperset({3, 4})  # Quail-assert: eq False
+set1.pop()  # Quail-assert: eq 3
+set1  # Quail-assert: eq {2, 3}
 set1 = {1, 2, 3}
-set1.symmetric_difference({1, 4, 5}) # Quail-assert: eq {2, 3, 4, 5}
-set1.symmetric_difference({}) # Quail-assert: eq set1
+set1.symmetric_difference({1, 4, 5})  # Quail-assert: eq {2, 3, 4, 5}
+set1.symmetric_difference({})  # Quail-assert: eq set1
 set1.symmetric_difference_update({1, 4, 5})
-set1 # Quail-assert: eq {2, 3, 4, 5}
+set1  # Quail-assert: eq {2, 3, 4, 5}
 set1 = {1, 2, 3}
-set1.union({1, 3, 4, 5, 6}) # Quail-assert: eq {1, 2, 3, 4, 5, 6}
+set1.union({1, 3, 4, 5, 6})  # Quail-assert: eq {1, 2, 3, 4, 5, 6}
 set1.update({1, 3, 4, 5, 6})
-set1 # Quail-assert: eq {1, 2, 3, 4, 5, 6}
+set1  # Quail-assert: eq {1, 2, 3, 4, 5, 6}
 # Quail-test:end
 
 
@@ -209,14 +209,14 @@ Description: Test the lists comprehension
 vec = [-4, -2, 0, 2, 4]
 
 # Doubling elements
-[x*2 for x in vec] # Quail-assert: eq [-8, -4, 0, 4, 8]
+[x * 2 for x in vec]  # Quail-assert: eq [-8, -4, 0, 4, 8]
 # Filter positive elements
-[x for x in vec if x >= 0] # Quail-assert: eq [0, 2, 4]
+[x for x in vec if x >= 0]  # Quail-assert: eq [0, 2, 4]
 # Convert every number to positive
-[x if x >= 0 else -x for x in vec] # Quail-assert: eq [4, 2, 0, 2, 4]
+[x if x >= 0 else -x for x in vec]  # Quail-assert: eq [4, 2, 0, 2, 4]
 # Flattening list
-vec = [[1,2,3], [4,5,6], [7,8,9]]
-[num for elem in vec for num in elem] # Quail-assert: eq [1, 2, 3, 4, 5, 6, 7, 8, 9]
+vec = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[num for elem in vec for num in elem]  # Quail-assert: eq [1, 2, 3, 4, 5, 6, 7, 8, 9]
 # Quail-test:end
 
 
@@ -227,8 +227,8 @@ Flyable-version: v0.1a1
 Description: Test the set comprehension
 """
 # Quail-test:start
-{2 for i in range(20)} # Quail-assert: eq {2}
-{{i,j} for j in range(4,7) for i in range(6,8)} # Quail-assert: eq {(7, 4), (6, 5), (6, 4), (7, 6), (6, 6), (7, 5)}
+{2 for i in range(20)}  # Quail-assert: eq {2}
+{{i, j} for j in range(4, 7) for i in range(6, 8)}  # Quail-assert: eq {(7, 4), (6, 5), (6, 4), (7, 6), (6, 6), (7, 5)}
 # Quail-test:end
 
 
@@ -240,13 +240,13 @@ Description: Test the dict comprehension
 """
 # Quail-test:start
 vec = [1, 2, 3, 4]
-{i: i + 2 for i in vec} # Quail-assert: eq {1: 3, 2: 4, 3: 5, 4: 6}
-{i % 2: i for i in vec} # Quail-assert: eq {1: 3, 0: 4}
+{i: i + 2 for i in vec}  # Quail-assert: eq {1: 3, 2: 4, 3: 5, 4: 6}
+{i % 2: i for i in vec}  # Quail-assert: eq {1: 3, 0: 4}
 # Double each value in the dictionary
 dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
-{k:v*2 for (k,v) in dict.items()} # Quail-assert: eq {'a': 2, 'b': 4, 'c': 6, 'd': 8, 'e': 10}
+{k: v * 2 for (k, v) in dict.items()}  # Quail-assert: eq {'a': 2, 'b': 4, 'c': 6, 'd': 8, 'e': 10}
 numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-{n:n**2 for n in numbers if n % 2 == 0} # Quail-assert: eq {0: 0, 8: 64, 2: 4, 4: 16, 6: 36}
+{n: n ** 2 for n in numbers if n % 2 == 0}  # Quail-assert: eq {0: 0, 8: 64, 2: 4, 4: 16, 6: 36}
 # Quail-test:end
 
 
