@@ -260,3 +260,153 @@ Description: Test the named expression operator (also known as walrus operator)
 even_squares = (x * x for x in range(10) if x % 2 == 0)
 [i for i in even_squares] # Quail-assert: eq [0, 4, 16, 36, 64]
 # Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Await
+Flyable-version: v0.1a1
+Description: Test the await expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Yield
+Flyable-version: v0.1a1
+Description: Test the yield expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: YieldFrom
+Flyable-version: v0.1a1
+Description: Test the YieldFrom expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Compare
+Flyable-version: v0.1a1
+Description: Test the compare expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Call
+Flyable-version: v0.1a1
+Description: Test the call expression (function call)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: FormattedValue
+Flyable-version: v0.1a1
+Description: Test the FormattedValue expression (formats a value to a certain formatting)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: JoinedStr
+Flyable-version: v0.1a1
+Description: Test the JoinedStr expression (Joining strings together)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Constant
+Flyable-version: v0.1a1
+Description: Test the constant expression (constant number, string, None, tuples, frozensets)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Attribute
+Flyable-version: v0.1a1
+Description: Test the Attribute expression (access to a value with the following ctx options: Load, Store or Del)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Subscript
+Flyable-version: v0.1a1
+Description: Test the subscript expression (subscripts an object, for example slicing of lists and tuples)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Starred
+Flyable-version: v0.1a1
+Description: Test the Starred expression (Access to a *var variable reference)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Name
+Flyable-version: v0.1a1
+Description: Test the name expression (variable name as a string with a the following ctx options: Load, Store, Del)
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: List
+Flyable-version: v0.1a1
+Description: Test the List expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Tuple
+Flyable-version: v0.1a1
+Description: Test the tuple expression
+"""
+# Quail-test:start
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: Slice
+Flyable-version: v0.1a1
+Description: Test the slice expression (subscript of an object from a value to another)
+"""
+# Quail-test:start
+# Quail-test:end
