@@ -456,6 +456,12 @@ Flyable-version: v0.1a1
 Description: Test the constant expression (constant number, string, None, tuples, frozensets)
 """
 # Quail-test:start
+PI = 3.14
+PI # Quail-assert: eq 3.14
+
+GRAVITY = 9.8
+GRAVITY # Quail-assert: eq 9.8
+
 # Quail-test:end
 
 
@@ -463,9 +469,21 @@ Description: Test the constant expression (constant number, string, None, tuples
 """
 Name: Attribute
 Flyable-version: v0.1a1
-Description: Test the Attribute expression (access to a value with the following ctx options: Load, Store or Del)
+Description: Test the Attribute expression (access to an attribute with the following ctx options: Load, Store or Del)
 """
 # Quail-test:start
+x = 5
+class Foo2:
+    x = 2
+
+    def bar(self):
+        return "Hey! " + str(self.x)
+
+foo2 = Foo2()
+foo2.bar() # Quail-assert: eq "Hey! 2"
+foo2.x = 10
+foo2.bar() # Quail-assert: eq "Hey! 10"
+
 # Quail-test:end
 
 
@@ -476,6 +494,12 @@ Flyable-version: v0.1a1
 Description: Test the subscript expression (subscripts an object, for example slicing of lists and tuples)
 """
 # Quail-test:start
+x = [2, 3]
+y = (2, 3)
+z = {0: 5, 3: 5}
+x[0] # Quail-assert: eq 2
+y[0] # Quail-assert: eq 2
+z[0] # Quail-assert: eq 5
 # Quail-test:end
 
 
@@ -486,6 +510,17 @@ Flyable-version: v0.1a1
 Description: Test the Starred expression (Access to a *var variable reference)
 """
 # Quail-test:start
+def starred(*args):
+    return args
+
+starred(1, 2, 3, 4, 5) # Quail-assert: eq (1, 2, 3, 4, 5)
+starred() # Quail-assert: eq ()
+
+def starred2(**kwargs):
+    return kwargs
+
+starred2(x=2, y=2) # Quail-assert: eq {x: 2, y: 2}
+starred2() # Quail-assert: eq {}
 # Quail-test:end
 
 
@@ -496,6 +531,33 @@ Flyable-version: v0.1a1
 Description: Test the name expression (variable name as a string with a the following ctx options: Load, Store, Del)
 """
 # Quail-test:start
+x = 2
+x # Quail-assert: eq 2
+del x
+
+x = 0
+def scope1():
+    x = 1
+    x # Quail-assert: eq 1
+
+    def scope2():
+        return x
+    
+    scope2() # Quail-assert: eq 1
+    
+    def scope3():
+        x = 3
+        x # Quail-assert: eq 3
+
+    scope3() # Quail-assert: eq 3
+    scope2() # Quail-assert: eq 1
+    x = 5
+    scope2() # Quail-assert: eq 5
+    scope3() # Quail-assert: eq 3
+
+    return x
+scope1() # Quail-assert: eq 1
+x # Quail-assert: eq 0
 # Quail-test:end
 
 
@@ -506,6 +568,13 @@ Flyable-version: v0.1a1
 Description: Test the List expression
 """
 # Quail-test:start
+lst = [1, 2, 1]
+lst[1] # Quail-assert: eq 2
+lst.count(1) # Quail-assert: eq 2
+len(lst) # Quail-assert: eq 3
+lst.append(5)
+len(lst) # Quail-assert: eq 4
+lst[len(lst) - 1] # Quail-assert: eq 5
 # Quail-test:end
 
 
@@ -516,6 +585,13 @@ Flyable-version: v0.1a1
 Description: Test the tuple expression
 """
 # Quail-test:start
+tple = (2,)
+tple # Quail-assert: eq (2,)
+tple = (2, 3)
+tple[0] # Quail-assert: eq 2
+x, y = tple
+x # Quail-assert: eq 2
+y # Quail-assert: eq 3
 # Quail-test:end
 
 
@@ -526,4 +602,12 @@ Flyable-version: v0.1a1
 Description: Test the slice expression (subscript of an object from a value to another)
 """
 # Quail-test:start
+lst = [i for i in range(10)]
+lst[0:10:2] # Quail-assert: eq [0, 2, 4, 6, 8]
+slc = slice(0, 10, 2)
+lst[slc] # Quail-assert: eq [0, 2, 4, 6, 8]
+lst[:-2] # Quail-assert: eq [0, 1, 2, 3, 4, 5, 6, 7]
+lst[-2:] # Quail-assert: eq [8, 9]
+lst[-2:9] # Quail-assert: eq [8]
+lst[::-1] # Quail-assert: eq [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 # Quail-test:end
