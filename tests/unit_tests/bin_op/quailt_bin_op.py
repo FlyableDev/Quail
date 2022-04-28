@@ -176,3 +176,109 @@ Description: Test the pow operator
 40 // -50 # Quail-assert: eq -1
 50.0 // -12.0 # Quail-assert: eq -5.0
 # Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: LShift
+Flyable-version: v0.1a1
+Description: Test the LeftShift operator
+"""
+# Quail-test:start
+8 << 1 # Quail-assert: eq 16
+8 << 2 # Quail-assert: eq 32
+8 << 4 # Quail-assert: eq 128
+-3 << 1 # Quail-assert: eq -6
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: RShift
+Flyable-version: v0.1a1
+Description: Test the RightShift operator
+"""
+# Quail-test:start
+8 >> 1 # Quail-assert: eq 4
+8 << 2 # Quail-assert: eq 2
+8 << 4 # Quail-assert: eq 0
+-3 << 1 # Quail-assert: eq -2
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: BitAnd
+Flyable-version: v0.1a1
+Description: Test the BitAnd operator
+"""
+# Quail-test:start
+0 & 0 # Quail-assert: eq 0
+0 & 1 # Quail-assert: eq 0
+1 & 0 # Quail-assert: eq 0
+1 & 1 # Quail-assert: eq 1
+
+2 & 3 # Quail-assert: eq 2
+2 & 0 # Quail-assert: eq 2
+-1 & -1 # Quail-assert: eq -1
+12 & 3 # Quail-assert: eq 0
+12 & -3 # Quail-assert: eq 12
+-12 & 3 # Quail-assert: eq 0
+-12 & -3 # Quail-assert: eq -12
+16 & 5 # Quail-assert: eq 0
+15 & 5 # Quail-assert: eq 5
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: BitOr
+Flyable-version: v0.1a1
+Description: Test the BitOr operator
+"""
+# Quail-test:start
+0 | 0 # Quail-assert: eq 0
+0 | 1 # Quail-assert: eq 1
+1 | 0 # Quail-assert: eq 1
+1 | 1 # Quail-assert: eq 1
+
+2 | 3 # Quail-assert: eq 3
+2 | 0 # Quail-assert: eq 2
+-1 | -1 # Quail-assert: eq -1
+12 | 3 # Quail-assert: eq 15
+12 | -3 # Quail-assert: eq -3
+-12 | 3 # Quail-assert: eq -9
+-12 | -3 # Quail-assert: eq -3
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: BitXor
+Flyable-version: v0.1a1
+Description: Test the BitXor operator
+"""
+# Quail-test:start
+0 ^ 0 # Quail-assert: eq 0
+0 ^ 1 # Quail-asser: eq 1
+1 ^ 0 # Quail-asser: eq 1
+1 ^ 1 # Quail-asser: eq 0
+
+156 ^ 52 # Quail-assert: eq 168
+-156 ^ 52 # Quail-assert: eq -176
+156 ^ -52 # Quail-assert: eq 168
+-156 ^ -52 # Quail-assert: eq -176
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: MatMult
+Flyable-version: v0.1a1
+Description: Test the MatMult operator
+"""
+# Quail-test:start
+
+# TODO : Add numpy to test implementation ?
+
+# Quail-test:end
