@@ -1,0 +1,161 @@
+from __future__ import annotations
+
+from functools import wraps
+from typing import TYPE_CHECKING
+
+import quail.constants
+from quail.tags.quail_tag import QuailTag, QuailTagType
+from quail.utils.indenter import __indented
+from utils.trim import trim
+
+if TYPE_CHECKING:
+    from quail.parser.quail_test_parser import QuailTestParser
+    from quail.constants import QuailTestState
+
+import re
+from typing import Any
+import quail.parser.quail_test_parser as quailtest
+
+
+def load():
+    QuailTag(tag_name="new", quail_tag_type=QuailTagType.TEST, apply=tag_new)
+    QuailTag(tag_name="start", quail_tag_type=QuailTagType.TEST, apply=tag_start)
+    QuailTag(tag_name="end", quail_tag_type=QuailTagType.TEST, apply=tag_end)
+
+    QuailTag(tag_name="-", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_empty)
+    QuailTag(
+        tag_name="raises", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_raises
+    )
+    QuailTag(tag_name="eq", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_eq)
+    QuailTag(tag_name="==", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_eq)
+    QuailTag(
+        tag_name="True", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_eq_True
+    )
+    QuailTag(
+        tag_name="False", quail_tag_type=QuailTagType.ASSERT, apply=assert_tag_eq_False
+    )
+    QuailTag(
+        tag_name="wrap-func", quail_tag_type=QuailTagType.MACRO, apply=macro_wrap_func
+    )
+
+
+# ********************** start test tag functions **********************
+
+
+def tag_new(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
+    if test.current_state is not quail.constants.QuailTestState.None_:
+        raise ValueError("You must end a test before starting a new one")
+
+    args = match.group(5).strip().split()
+    if len(args) > 1:
+        raise AttributeError(
+            f"Too many arguments passed to the tag new (passed {len(args)})"
+        )
+
+    result = None
+    if args:
+        if args[0] in ("compile", "runtime", "both"):
+            result = args[0]
+        else:
+            raise NameError(f"Unknown argument for the new tag ({args[0]})")
+    return quail.constants.QuailTestState.New, result
+
+
+def tag_start(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
+    if test.current_state is quail.constants.QuailTestState.None_:
+        raise ValueError("You must create a test before defining its body")
+
+    args = match.group(5).strip().split()
+    if args:
+        raise AttributeError(
+            f"Too many arguments passed to the tag new (passed {len(args)})"
+        )
+    return quail.constants.QuailTestState.Start, None
+
+
+def tag_end(match: re.Match, test: QuailTestParser) -> tuple[QuailTestState, Any]:
+    if test.current_state is not quail.constants.QuailTestState.Body:
+        raise ValueError("You must create a test before defining its body")
+
+    args = match.group(5).strip().split()
+    if args:
+        raise AttributeError(
+            f"Too many arguments passed to the tag new (passed {len(args)})"
+        )
+    return quail.constants.QuailTestState.End, None
+
+
+# ********************** end test tag functions **********************
+
+
+# ********************** start assert tag functions **********************
+
+@__indented
+def assert_tag_empty(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    return f"print(({line.strip()}))"
+
+
+@__indented
+def assert_tag_eq(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    value = match.group(5).strip()
+    return f"print(({line.strip()}) == ({value}))"
+
+
+@__indented
+def assert_tag_eq_True(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    return f"print(({line.strip()}) == True)"
+
+
+@__indented
+def assert_tag_eq_False(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    return f"print(({line.strip()}) == False)"
+
+
+@__indented
+def assert_tag_raises(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    value = match.group(5).strip()
+
+    return (
+        trim(
+            f"""
+                try:
+                    {line.strip()}
+                except {value or ""}:
+                    print(True)
+                else:
+                    print(False)
+                """
+        )
+        + "\n"
+    )
+
+
+# ********************** end assert tag functions **********************
+
+# ********************** start macro tag functions **********************
+@__indented
+def macro_wrap_func(match: re.Match, test: QuailTestParser) -> str:
+    line = match.group(1)
+    value = match.group(5).strip()
+
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
