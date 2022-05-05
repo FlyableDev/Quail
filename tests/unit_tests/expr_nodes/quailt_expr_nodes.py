@@ -280,6 +280,13 @@ async def test_functionality():
 loop = asyncio.get_event_loop()
 coroutine = test_functionality()
 loop.run_until_complete(coroutine) # Quail-assert: eq True
+
+async def print_B(): #Simple async def
+    return 2
+
+async def main_def():
+    return await asyncio.gather(print_B())
+asyncio.run(main_def()) # Quail-assert: eq [2]
 # Quail-test:end
 
 

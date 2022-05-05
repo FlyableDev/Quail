@@ -7,6 +7,10 @@ Flyable-version: v0.1a1
 Description: Tests the function definition
 """
 # Quail-test:start
+import asyncio
+from decimal import DivisionByZero
+
+
 def func_no_args():
   pass
 
@@ -48,6 +52,27 @@ Flyable-version: v0.1a1
 Description: Tests the class definition
 """
 # Quail-test:start
+class Foo:
+  def __init__(self):
+    self.x = 1
+  class Bar:
+    def __init__(self):
+        self.x = 10
+        self.y = 2
+
+class FooChild(Foo):
+  def __init__(self):
+    super()
+    self.z = 3
+
+f = Foo()
+f.x # Quail-assert: eq 2
+f2 = Foo.Bar()
+f2.x # Quail-assert: eq 10
+f2.y # Quail-assert: eq 2
+f3 = FooChild()
+f3.x # Quail-assert: eq 1
+f3.z # Quail-assert: eq 3
 # Quail-test:end
 
 
@@ -58,6 +83,10 @@ Flyable-version: v0.1a1
 Description: Tests the return statement
 """
 # Quail-test:start
+def ret():
+  return 10
+
+ret() # Quail-assert: eq 10
 # Quail-test:end
 
 
@@ -68,6 +97,15 @@ Flyable-version: v0.1a1
 Description: Tests the delete statement
 """
 # Quail-test:start
+x = 10
+x # Quail-assert: eq 10
+"x" in locals() # Quail-assert: eq True
+del x
+"x" in locals() # Quail-assert: eq False
+
+lst = [1, 2, 3]
+del lst[1]
+lst # Quail-assert: eq [1, 3]
 # Quail-test:end
 
 
@@ -78,6 +116,16 @@ Flyable-version: v0.1a1
 Description: Tests the assign statement
 """
 # Quail-test:start
+x = 10
+x # Quail-assert: eq 10
+x = "Hello World!"
+x # Quail-assert: eq "Hello World!"
+x = True
+x # Quail-assert: eq True
+x = 2.3
+x # Quail-assert: eq 2.3
+x = []
+x # Quail-assert: eq []
 # Quail-test:end
 
 
@@ -88,6 +136,12 @@ Flyable-version: v0.1a1
 Description: Tests the augmented assignement statement (+=)
 """
 # Quail-test:start
+x = 10
+x # Quail-assert: eq 10
+x += 5
+x # Quail-assert: eq 15
+x -= 5
+x # Quail-assert: eq 10
 # Quail-test:end
 
 
@@ -98,6 +152,16 @@ Flyable-version: v0.1a1
 Description: Tests the annoted assignement statement
 """
 # Quail-test:start
+c: int
+a: int = 5
+a # Quail-assert: eq 5
+
+class Test:
+  def __init__(self):
+      self.x: int = 5
+
+lst: list[int] = [1, 2, 3, 4, 5]
+lst # Quail-assert: eq [1, 2, 3, 4, 5]
 # Quail-test:end
 
 
@@ -108,6 +172,16 @@ Flyable-version: v0.1a1
 Description: Tests the for loop definition
 """
 # Quail-test:start
+lst = [1, 2, 3, 4, 5]
+total = 0
+for i in lst:
+  total += i
+total # Quail-assert: eq 15
+
+lst2 = []
+for i in "Hello":
+  lst2.append(i)
+lst2 # Quail-assert: eq ["H", "E", "L", "L", "O"]
 # Quail-test:end
 
 
@@ -118,6 +192,19 @@ Flyable-version: v0.1a1
 Description: Tests the async for loop definition
 """
 # Quail-test:start
+async def first():
+    return 10
+
+async def main():  
+  x = 0   
+  for i in range(2):
+    x += await first()
+  
+  return x
+
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main()) # Quail-assert: eq 20
 # Quail-test:end
 
 
@@ -128,6 +215,14 @@ Flyable-version: v0.1a1
 Description: Tests the while loop definition
 """
 # Quail-test:start
+lst = [10, 20, 30, 40]
+total = 0
+i = 3
+while i >= 0:
+  total += lst[i]
+  i -= 1
+
+total # Quail-assert: eq 100
 # Quail-test:end
 
 
@@ -138,6 +233,21 @@ Flyable-version: v0.1a1
 Description: Tests the with statement
 """
 # Quail-test:start
+class MessageWriter(object):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.file_name # Quail-assert: eq "my_file.txt"
+      
+    def __enter__(self):
+        return "Hello World!"
+  
+    def __exit__(self, _a, _b, _c):
+        "I'm done here" # Quail-assert: eq "I'm done here"
+  
+# using with statement with MessageWriter
+  
+with MessageWriter('my_file.txt') as xfile:
+    xfile # Quail-assert: eq "Hello World!"
 # Quail-test:end
 
 
@@ -150,16 +260,20 @@ Description: Tests the async with statement
 # Quail-test:start
 # Quail-test:end
 
-
-# Quail-test:new
-"""
-Name: Raise
-Flyable-version: v0.1a1
-Description: Tests the raise statement
-"""
-# Quail-test:start
-# Quail-test:end
-
+try:
+  # Quail-test:new
+  """
+  Name: Raise
+  Flyable-version: v0.1a1
+  Description: Tests the raise statement
+  """
+  # Quail-test:start
+  x = 3
+  raise Exception()
+  x = 5
+  # Quail-test:end
+except:
+  pass
 
 # Quail-test:new
 """
@@ -168,6 +282,25 @@ Flyable-version: v0.1a1
 Description: Tests the try statement
 """
 # Quail-test:start
+
+a = 1
+try:
+  x = 20 + "2"
+  a = 2
+except:
+  a = 3
+
+a # Quail-assert: eq 3
+
+a = 1
+try:
+  x = 10 / 0
+  a = 2
+except DivisionByZero:
+  a = 3
+
+a # Quail-assert: eq 3
+
 # Quail-test:end
 
 
@@ -178,26 +311,11 @@ Flyable-version: v0.1a1
 Description: Tests the assert statement
 """
 # Quail-test:start
-# Quail-test:end
+x = 10
+assert 2 == 2
+x # Quail-assert: eq 10
 
-
-# Quail-test:new
-"""
-Name: Import
-Flyable-version: v0.1a1
-Description: Tests the import statement
-"""
-# Quail-test:start
-# Quail-test:end
-
-
-# Quail-test:new
-"""
-Name: ImportFrom
-Flyable-version: v0.1a1
-Description: Tests the from ... import ... statement
-"""
-# Quail-test:start
+assert 2 != 2
 # Quail-test:end
 
 
@@ -216,16 +334,6 @@ Description: Tests the global statement
 Name: NonLocal
 Flyable-version: v0.1a1
 Description: Tests the NonLocal statement
-"""
-# Quail-test:start
-# Quail-test:end
-
-
-# Quail-test:new
-"""
-Name: Expr
-Flyable-version: v0.1a1
-Description: Tests the Expr statement
 """
 # Quail-test:start
 # Quail-test:end
