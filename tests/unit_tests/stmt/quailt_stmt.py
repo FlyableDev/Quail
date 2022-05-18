@@ -326,6 +326,18 @@ Flyable-version: v0.1a1
 Description: Tests the global statement
 """
 # Quail-test:start
+new_var = 0
+def test():
+  global new_var
+  new_var = 5
+
+new_var # Quail-assert: eq 5
+
+def test2():
+  global new_var_2
+  new_var_2 = 10
+
+new_var_2 # Quail-assert: eq 10
 # Quail-test:end
 
 
@@ -336,6 +348,16 @@ Flyable-version: v0.1a1
 Description: Tests the NonLocal statement
 """
 # Quail-test:start
+def test3():
+  x = 5
+
+  def test4():
+    nonlocal x
+    x = 10
+
+  x # Quail-assert: eq 5
+  test4()
+  x # Quail-assert: eq 10
 # Quail-test:end
 
 
@@ -346,6 +368,23 @@ Flyable-version: v0.1a1
 Description: Tests the pass statement
 """
 # Quail-test:start
+def test_pass():
+  pass
+
+test_pass()
+
+for i in range(1):
+  pass
+
+if 6 == 6:
+  pass
+
+if 5 == 6:
+  pass
+elif 5 == 4:
+  pass
+else:
+  pass
 # Quail-test:end
 
 
@@ -356,6 +395,21 @@ Flyable-version: v0.1a1
 Description: Tests the break statement
 """
 # Quail-test:start
+x = 0
+for i in range(10):
+  x = i
+  if x == 5:
+    break
+
+x # Quail-assert: eq 5
+
+x = 0
+for i in range(5):
+  break
+else:
+  x = 5
+
+x # Quail-assert: eq 5
 # Quail-test:end
 
 
