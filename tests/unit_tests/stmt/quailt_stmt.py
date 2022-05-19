@@ -420,4 +420,11 @@ Flyable-version: v0.1a1
 Description: Tests the continue statement
 """
 # Quail-test:start
+nb_even = 0
+for i in range(10):
+  if i % 2 != 0:
+    continue
+  nb_even += 1
+
+nb_even # Quail-assert: eq 5
 # Quail-test:end
