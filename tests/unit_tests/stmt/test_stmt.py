@@ -1,9 +1,12 @@
-from quail.testers.compiler_tester import CompilerResult
-from tests.unit_tests.conftest import quail_runtimes_tester, quail_tester
+from tests.unit_tests.conftest import quail_runtimes_tester
 
 @quail_runtimes_tester
 def test_runtimes():
     pass
+
+"""
+
+CURRENTLY OUTDATED
 
 @quail_tester
 def test_func_creation(quail_results: CompilerResult):
@@ -18,6 +21,6 @@ def test_func_creation(quail_results: CompilerResult):
 
 @quail_tester
 def test_variable(quail_results: CompilerResult):
-    """variable"""
     quail_results.assert_var("b").is_of_type(list)
 
+"""

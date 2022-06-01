@@ -14,7 +14,7 @@ from cli.cli_utils import console, print_quail_err
 
 print = console.print
 
-FLYABLE_VERSION: int
+FLYABLE_VERSION: str
 HELP = "Welcome to the Quail maker helper!"
 
 INITIALIZED = False
@@ -31,9 +31,7 @@ def init_if_not_init(ctx, param, value):
     if not INITIALIZED:
         INITIALIZED = cli_setup.setup_quail()
         if INITIALIZED:
-            from flyable import FLYABLE_VERSION as FLY_V
-
-            FLYABLE_VERSION = FLY_V
+            FLYABLE_VERSION = "v0.1a1"
         else:
             ctx.abort()
 
@@ -143,7 +141,7 @@ def create_new_quail_integration_test(name: str, blank: bool, git_add: bool):
                     # Quail-test:new
                     """
                     Name: YOUR_NAME
-                    Flyable-version: {FLYABLE_VERSION}
+                    : {FLYABLE_VERSION}
                     Description: YOUR_DESCRIPTION
                     """
                     # Quail-test:start

@@ -55,7 +55,18 @@ class IntegrationTest:
         raise CompilationError(compiler.get_errors())
 
     def fly_exec(self):
-        self.fly_compile()
+        self.lines.insert(0, "import flyable")
+        self.lines.insert(1, "flyable.run()")
+        f = StringIO()
+        with redirect_stdout(f):
+            exec(self.py_compile(), {})
+        s = f.getvalue()
+        
+        self.lines.pop(-1)
+        self.lines.pop(-1)
+        return s
+
+        """
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
         linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
         if platform.system() == "Windows":
@@ -83,6 +94,7 @@ class IntegrationTest:
             raise CompilationError(p)
         result = p.communicate()[0]
         return result
+        """
 
     def py_exec(self):
         f = StringIO()

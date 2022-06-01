@@ -3,8 +3,6 @@ from __future__ import annotations
 import platform
 from typing import TYPE_CHECKING
 
-from flyable.compiler import Compiler
-from quail.testers.compiler_tester import FlyCompilerTester
 from setup.constants import PYTHON_PATH
 
 if TYPE_CHECKING:
@@ -47,33 +45,19 @@ class QuailTest:
     def py_compile(self):
         return compile("".join(self.lines), self.file_name, "exec")
 
-    def fly_compile(self, save_results: bool = False):
-        temp_working_dir = self.temp_working_dir
-        if not os.path.exists(temp_working_dir):
-            os.makedirs(temp_working_dir)
-        if not os.path.exists(f"{temp_working_dir}/python311.dll"):
-            shutil.copy2(constants.PYTHON_3_11_DLL_PATH, temp_working_dir)
-
-        function_file_temp_path = f"{temp_working_dir}/{self.name}.py"
-        with open(function_file_temp_path, "w+") as python_file:
-            python_file.write("".join(self.lines))
-
-        compiler = Compiler() if not save_results else FlyCompilerTester()
-        compiler.add_file(function_file_temp_path)
-        compiler.set_output_path(f"{temp_working_dir}/output.o")
-
-        try:
-            compiler.compile()
-        except Exception as e:
-            raise CompilationError(f"COMPILATION_ERROR: {e}")
-
-        if not compiler.has_error():
-            return compiler
-
-        raise CompilationError(compiler.get_errors())
-
     def fly_exec(self, stdout: StdOut):
-        self.fly_compile()
+        self.lines.insert(0, "import flyable\n")
+        self.lines.insert(1, "flyable.run()\n")
+        exec(self.py_compile(), {}, {})
+        result = stdout.content
+        stdout.clear()
+        if not all(x == "True" for x in result.split("\n") if x):
+            raise Warning(result)
+
+        self.lines.pop(-1)
+        self.lines.pop(-1)
+        return result
+        """
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
         linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
         if platform.system() == "Windows":
@@ -103,6 +87,7 @@ class QuailTest:
         result = stdout.content
         stdout.clear()
         return result
+        """
 
     def py_exec(self, stdout: StdOut):
         exec(self.py_compile(), {}, {})
