@@ -59,7 +59,7 @@ class IntegrationTest:
         self.lines.insert(1, "flyable.run()")
         f = StringIO()
         with redirect_stdout(f):
-            exec(self.py_compile(), {})
+            exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         s = f.getvalue()
         
         self.lines = self.lines[2:]
@@ -98,7 +98,7 @@ class IntegrationTest:
     def py_exec(self):
         f = StringIO()
         with redirect_stdout(f):
-            exec(self.py_compile(), {})
+           exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         s = f.getvalue()
         return s
 

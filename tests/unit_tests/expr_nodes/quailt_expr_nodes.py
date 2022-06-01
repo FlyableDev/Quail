@@ -90,16 +90,16 @@ Flyable-version: v0.1a1
 Description: Test the dictionnary creation and unpacking
 """
 # Quail-test:start
-dict = dict()
-dict  # Quail-assert: eq {}
+my_dict = dict()
+my_dict  # Quail-assert: eq {}
 
-dict = {}
-dict  # Quail-assert: eq {}
+my_dict = {}
+my_dict  # Quail-assert: eq {}
 
-dict = {"test": 1, 2: "True", 4.5: True, False: []}
-dict  # Quail-assert: eq {'test': 1, 2: 'True', 4.5: True, False: []}
+my_dict = {"test": 1, 2: "True", 4.5: True, False: []}
+my_dict  # Quail-assert: eq {'test': 1, 2: 'True', 4.5: True, False: []}
 
-dict.clear()  # Quail-assert: eq {}
+my_dict.clear()  # Quail-assert: eq {}
 
 person = {
     "name": "Albert",
@@ -110,8 +110,8 @@ person['name']  # Quail-assert: eq "Albert"
 person.get('name')  # Quail-assert: eq "Albert"
 'name' in person  # Quail-assert: eq True
 'birth' in person  # Quail-assert: eq False
-person.keys()  # Quail-assert: eq dict_keys(['name', 'age'])
-person.values()  # Quail-assert: eq dict_values(['Albert', 40])
+person.keys()  # Quail-assert: eq (['name', 'age'])
+person.values()  # Quail-assert: eq (['Albert', 40])
 person.pop("name")  # Quail-assert: eq "Albert"
 person  # Quail-assert: eq {'age': 40, 'lastName': 'Smith'}
 person.popitem()  # Quail-assert: eq ('lastName', 'Smith')
@@ -127,11 +127,12 @@ person = {
 }
 person.popitem()  # Quail-assert: eq ('age', 41)
 
-regions = dict.fromkeys({"Canada", "USA"}, "Country")
+regions = my_dict.fromkeys({"Canada", "USA"}, "Country")
 regions  # Quail-assert: eq {'USA': 'Country', 'Canada': 'Country'}
-x = regions.items()  # Quail-assert: eq []
+x = regions.items()
+x # Quail-assert: eq []
 regions["Europe"] = "Continent"
-x  # Quail-assert: eq dict_items([('USA', 'Country'), ('Canada', 'Country'), ('Europe', 'Continent')])
+x  # Quail-assert: eq ([('USA', 'Country'), ('Canada', 'Country'), ('Europe', 'Continent')])
 
 d1 = {1: 10, 2: 20}
 d2 = {3: 30, 4: 40}
@@ -228,7 +229,7 @@ Description: Test the set comprehension
 """
 # Quail-test:start
 {2 for i in range(20)}  # Quail-assert: eq {2}
-{{i, j} for j in range(4, 7) for i in range(6, 8)}  # Quail-assert: eq {(7, 4), (6, 5), (6, 4), (7, 6), (6, 6), (7, 5)}
+{(i, j) for j in range(4, 7) for i in range(6, 8)}  # Quail-assert: eq {(7, 4), (6, 5), (6, 4), (7, 6), (6, 6), (7, 5)}
 # Quail-test:end
 
 
@@ -243,8 +244,8 @@ vec = [1, 2, 3, 4]
 {i: i + 2 for i in vec}  # Quail-assert: eq {1: 3, 2: 4, 3: 5, 4: 6}
 {i % 2: i for i in vec}  # Quail-assert: eq {1: 3, 0: 4}
 # Double each value in the dictionary
-dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
-{k: v * 2 for (k, v) in dict.items()}  # Quail-assert: eq {'a': 2, 'b': 4, 'c': 6, 'd': 8, 'e': 10}
+my_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+{k: v * 2 for (k, v) in my_dict.items()}  # Quail-assert: eq {'a': 2, 'b': 4, 'c': 6, 'd': 8, 'e': 10}
 numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 {n: n ** 2 for n in numbers if n % 2 == 0}  # Quail-assert: eq {0: 0, 8: 64, 2: 4, 4: 16, 6: 36}
 # Quail-test:end
@@ -307,7 +308,6 @@ a = my_gen()
 next(a) # Quail-assert: eq 1
 next(a) # Quail-assert: eq 2
 next(a) # Quail-assert: eq 3
-next(a) # Quail-assert: eq 4
 next(a) # Quail-assert: eq 4
 a = my_gen()
 next(a) # Quail-assert: eq 1
@@ -443,6 +443,9 @@ Flyable-version: v0.1a1
 Description: Test the FormattedValue expression (formats a value to a certain formatting)
 """
 # Quail-test:start
+"{}, {} and {}".format('John','Bill','Sean') # Quail-assert: eq "John, Bill and Sean"
+"{1}, {0} and {2}".format('John','Bill','Sean') # Quail-assert: eq "Bill, John and Sean"
+"{s}, {b} and {j}".format(j='John',b='Bill',s='Sean') # Quail-assert: eq "Sean, Bill and John"
 # Quail-test:end
 
 
@@ -453,6 +456,11 @@ Flyable-version: v0.1a1
 Description: Test the JoinedStr expression (Joining strings together)
 """
 # Quail-test:start
+name = "Bob"
+a = 95.2424242424
+f"This is a test {(a * 2):.5}. Some more text {name}" # Quail-assert: eq "This is a test 190.48. Some more text Bob"
+f"Another test" # Quail-assert: eq "Another test"
+f"" # Quail-assert: eq ""
 # Quail-test:end
 
 
@@ -526,7 +534,7 @@ starred() # Quail-assert: eq ()
 def starred2(**kwargs):
     return kwargs
 
-starred2(x=2, y=2) # Quail-assert: eq {x: 2, y: 2}
+starred2(x=2, y=2) # Quail-assert: eq {"x": 2, "y": 2}
 starred2() # Quail-assert: eq {}
 # Quail-test:end
 

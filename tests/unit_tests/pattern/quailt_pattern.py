@@ -93,8 +93,6 @@ Flyable-version: v0.1a1
 Description: Tests the mapping matching inside a python pattern
 """
 # Quail-test:start
-
-# Quail-test:end
 def test_mapping(val):
   match val:
     case {"override": _}:
@@ -114,7 +112,7 @@ test_mapping({"2": True, "1": "dwwd"}) # Quail-assert: eq "Third"
 test_mapping({}) # Quail-assert: eq "Else"
 test_mapping({"1": 1, "3": 3}) # Quail-assert: eq "Else"
 test_mapping({"1": 1, "2": 2, "3": 3}) # Quail-assert: eq "Third"
-
+# Quail-test:end
 
 # Quail-test:new
 """

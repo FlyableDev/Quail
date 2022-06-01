@@ -1,4 +1,5 @@
 from __future__ import annotations
+import asyncio
 
 import platform
 from typing import TYPE_CHECKING

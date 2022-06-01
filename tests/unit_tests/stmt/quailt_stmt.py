@@ -8,8 +8,6 @@ Description: Tests the function definition
 """
 # Quail-test:start
 import asyncio
-from decimal import DivisionByZero
-
 
 def func_no_args():
   pass
@@ -62,7 +60,7 @@ class Foo:
 
 class FooChild(Foo):
   def __init__(self):
-    super()
+    super().__init__()
     self.z = 3
 
 f = Foo()
@@ -260,20 +258,20 @@ Description: Tests the async with statement
 # Quail-test:start
 # Quail-test:end
 
+# Quail-test:new
+"""
+Name: Raise
+Flyable-version: v0.1a1
+Description: Tests the raise statement
+"""
+# Quail-test:start
 try:
-  # Quail-test:new
-  """
-  Name: Raise
-  Flyable-version: v0.1a1
-  Description: Tests the raise statement
-  """
-  # Quail-test:start
   x = 3
   raise Exception()
   x = 5
-  # Quail-test:end
 except:
   pass
+  # Quail-test:end
 
 # Quail-test:new
 """
@@ -296,7 +294,7 @@ a = 1
 try:
   x = 10 / 0
   a = 2
-except DivisionByZero:
+except ZeroDivisionError:
   a = 3
 
 a # Quail-assert: eq 3
@@ -333,6 +331,7 @@ def test():
 
 new_var # Quail-assert: eq 5
 
+new_var_2 = 5
 def test2():
   global new_var_2
   new_var_2 = 10

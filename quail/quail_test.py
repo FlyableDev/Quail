@@ -1,4 +1,5 @@
 from __future__ import annotations
+import asyncio
 
 import platform
 from typing import TYPE_CHECKING
@@ -48,7 +49,7 @@ class QuailTest:
     def fly_exec(self, stdout: StdOut):
         self.lines.insert(0, "import flyable\n")
         self.lines.insert(1, "flyable.run()\n")
-        exec(self.py_compile(), {}, {})
+        exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         result = stdout.content
         stdout.clear()
 
@@ -87,7 +88,7 @@ class QuailTest:
         """
 
     def py_exec(self, stdout: StdOut):
-        exec(self.py_compile(), {}, {})
+        exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         result = stdout.content
         stdout.clear()
         if not all(x == "True" for x in result.split("\n") if x):

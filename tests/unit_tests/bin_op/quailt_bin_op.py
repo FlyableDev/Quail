@@ -102,21 +102,21 @@ Description: Test the division by zero
 """
 # Quail-test:start
 try:
-    print(5 / 0)
+    5 / 0
 except ZeroDivisionError:
-    print("Division by zero")
+    "Division by zero" # Quail-assert: eq "Division by zero"
 try:
-    print(0 / 0)
+    0 / 0
 except ZeroDivisionError:
-    print("Division by zero")
+    "Division by zero" # Quail-assert: eq "Division by zero"
 try:
-    print(2 % 0)
+    2 % 0
 except ZeroDivisionError:
-    print("Division by zero")
+    "Division by zero" # Quail-assert: eq "Division by zero"
 try:
-    print(5 // 0)
+    5 // 0
 except ZeroDivisionError:
-    print("Division by zero")
+    "Division by zero" # Quail-assert: eq "Division by zero"
 # Quail-test:end
 
 

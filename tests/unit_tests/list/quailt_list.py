@@ -24,7 +24,10 @@ Flyable-version: v0.1a1
 Description: tests list len
 """
 # Quail-test:start
-
+x = [1, 2, 3]
+len(x) # Quail-assert: eq 3
+x = []
+x # Quail-assert: eq 0
 # Quail-test:end
 # Quail-test:new
 """
