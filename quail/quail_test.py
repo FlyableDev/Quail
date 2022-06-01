@@ -51,11 +51,8 @@ class QuailTest:
         exec(self.py_compile(), {}, {})
         result = stdout.content
         stdout.clear()
-        if not all(x == "True" for x in result.split("\n") if x):
-            raise Warning(result)
 
-        self.lines.pop(-1)
-        self.lines.pop(-1)
+        self.lines = self.lines[2:]
         return result
         """
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"

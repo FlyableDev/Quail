@@ -175,6 +175,7 @@ def get_quail_tests(dir_name: str, current_file_path: str) -> dict:
 
 @pytest.fixture(scope="module")
 def quail_test(request: SubRequest):
+    print(request.fspath)
     return get_quail_tests(
         request.fspath.dirname, os.getenv("PYTEST_CURRENT_TEST").split("::")[0]
     )

@@ -142,11 +142,11 @@ def test_class(val):
     case _:
       return "Else"
 
-test_class(Foo(10, 20)) # Quail-assert: "First"
-test_class(Foo(50, 0)) # Quail-assert: "Second"
-test_class(Foo(50, 0, 5)) # Quail-assert: "Second"
-test_class(Foo(50, 10, 5)) # Quail-assert: "Third"
-test_class(Foo(0, 0, 0)) # Quail-assert: "Else"
+test_class(Foo(10, 20)) # Quail-assert: eq "First"
+test_class(Foo(50, 0)) # Quail-assert: eq "Second"
+test_class(Foo(50, 0, 5)) # Quail-assert: eq "Second"
+test_class(Foo(50, 10, 5)) # Quail-assert: eq "Third"
+test_class(Foo(0, 0, 0)) # Quail-assert: eq "Else"
 # Quail-test:end
 
 

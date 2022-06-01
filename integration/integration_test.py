@@ -62,8 +62,7 @@ class IntegrationTest:
             exec(self.py_compile(), {})
         s = f.getvalue()
         
-        self.lines.pop(-1)
-        self.lines.pop(-1)
+        self.lines = self.lines[2:]
         return s
 
         """
