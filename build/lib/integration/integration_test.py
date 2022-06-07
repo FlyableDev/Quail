@@ -5,11 +5,10 @@ from subprocess import Popen, PIPE
 from io import StringIO
 from contextlib import redirect_stdout
 
-from flyable.compiler import Compiler
 import setup.constants as constants
 
 from utils.utils import CompilationError
-import integration.constants as const
+import quail.integration.constants as const
 
 
 @dataclass

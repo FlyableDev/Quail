@@ -77,8 +77,8 @@ def run(test, mode, verbose):
         process.communicate()
 
     elif mode == "integration":
-        from integration.integration_test import load_integration_tests
-        from integration.integration_test_runner import IntegrationTestRunner
+        from quail.integration.integration_test import load_integration_tests
+        from quail.integration.integration_test_runner import IntegrationTestRunner
 
         tests = load_integration_tests(
             f"./tests/integration_tests{'/' + test if test != '~' else ''}"

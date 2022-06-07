@@ -1,6 +1,6 @@
 import os
-from tests.integration.integration_test import load_integration_tests
-from tests.integration.integration_test_runner import IntegrationTestRunner
+from quail.integration.integration_test import load_integration_tests
+from quail.integration.integration_test_runner import IntegrationTestRunner
 
 
 def run_tests():
@@ -8,7 +8,7 @@ def run_tests():
     test_runner = IntegrationTestRunner()
     for test in tests:
         if test.name == "primes":
-            test_runner.add_test(test)
+            test_runner.add_tests(test)
 
     test_runner.run_all_tests()
 

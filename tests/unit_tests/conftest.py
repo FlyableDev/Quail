@@ -24,7 +24,7 @@ setup_quail()
 
 from quail.parser.parser import parse_quailt_file
 from quail.quail_test import QuailTest
-from utils.utils import StdOut, CompilationError
+from quail.utils.utils import StdOut, CompilationError
 
 
 def _get_error_msg(test, py_result, fly_result, dependencies=None):

@@ -4,12 +4,11 @@ import asyncio
 import platform
 from typing import TYPE_CHECKING
 
-from flyable.compiler import Compiler
 from quail.testers.compiler_tester import FlyCompilerTester
 from setup.constants import PYTHON_PATH
 
 if TYPE_CHECKING:
-    from utils.utils import StdOut
+    from quail.utils.utils import StdOut
     from typing import Literal
 
 import os

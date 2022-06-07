@@ -1,5 +1,5 @@
 from tests.unit_tests.conftest import quail_tester
-from utils.utils import StdOut
+from quail.utils.utils import StdOut
 from quail.quail_test import QuailTest
 
 

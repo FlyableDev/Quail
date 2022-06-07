@@ -1,6 +1,6 @@
 from quail.quail_test import QuailTest
 from tests.unit_tests.conftest import quail_runtimes_tester, quail_tester
-from utils.utils import StdOut
+from quail.utils.utils import StdOut
 
 
 @quail_runtimes_tester(exclude=["compile_list"])

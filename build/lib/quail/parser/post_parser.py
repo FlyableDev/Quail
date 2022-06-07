@@ -24,3 +24,4 @@ def wrap_test_in_func(test: QuailTest, name="_quail_test_func"):
 
     # adding the func call at the end
     test.lines.append(f"\n{name}()\n")
+    test.lines.append(f"\n{name}()\n")

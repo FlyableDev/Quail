@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from integration.utils import Style
+from quail.integration.utils import Style
 
 if TYPE_CHECKING:
-	from integration.integration_test_runner import IntegrationTestRunner as TestRunner
+	from quail.integration.integration_test_runner import IntegrationTestRunner as TestRunner
 
 style_print = Style.style_print
 

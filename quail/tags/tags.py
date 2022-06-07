@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import quail.constants
 from quail.tags.quail_tag import QuailTag, QuailTagType
 from quail.utils.indenter import __indented
-from utils.trim import trim
+from quail.utils.trim import trim
 
 if TYPE_CHECKING:
     from quail.parser.quail_test_parser import QuailTestParser

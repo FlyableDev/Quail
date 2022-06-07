@@ -1,15 +1,10 @@
+import asyncio
 import json, os
-import platform
 from dataclasses import dataclass, field
-from subprocess import Popen, PIPE
 from io import StringIO
 from contextlib import redirect_stdout
 
-from flyable.compiler import Compiler
-import setup.constants as constants
-
-from utils.utils import CompilationError
-import integration.constants as const
+import quail.integration.constants as const
 
 
 @dataclass
@@ -39,6 +34,7 @@ class IntegrationTest:
 
         return self.__lines
 
+    """
     def fly_compile(self, save_results: bool = False):
         compiler = Compiler()
         compiler.add_file(self.__main_path)
@@ -53,6 +49,7 @@ class IntegrationTest:
             return compiler
 
         raise CompilationError(compiler.get_errors())
+        """
 
     def fly_exec(self):
         self.lines.insert(0, "import flyable")
@@ -62,7 +59,7 @@ class IntegrationTest:
             exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         s = f.getvalue()
         
-        self.lines = self.lines[2:]
+        self.__lines = self.lines[2:]
         return s
 
         """

@@ -1,5 +1,5 @@
-from integration.integration_test import IntegrationTest
-from integration.output.test_output import TestOuput
+from quail.integration.integration_test import IntegrationTest
+from quail.integration.output.test_output import TestOuput
 
 
 class IntegrationTestRunner:

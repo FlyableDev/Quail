@@ -1,22 +1,14 @@
 from __future__ import annotations
 import asyncio
 
-import platform
 from typing import TYPE_CHECKING
 
-from setup.constants import PYTHON_PATH
-
 if TYPE_CHECKING:
-    from utils.utils import StdOut
+    from quail.utils.utils import StdOut
     from typing import Literal
 
-import os
 from dataclasses import dataclass, field
-from subprocess import Popen, PIPE
 
-import setup.constants as constants
-from utils.utils import CompilationError
-import shutil
 from quail.constants import QUAIL_VALID_INFOS
 
 
