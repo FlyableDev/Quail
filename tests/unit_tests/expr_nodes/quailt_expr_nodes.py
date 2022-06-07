@@ -139,6 +139,9 @@ person.popitem()  # Quail-assert: eq ('age', 40)
 regions = my_dict.fromkeys({"Canada", "USA"}, "Country")
 regions  # Quail-assert: eq {'USA': 'Country', 'Canada': 'Country'}
 
+regions = {}
+regions["Canada"] = "Country"
+regions["USA"] = "Country"
 regions["Europe"] = "Continent"
 vals = [('Canada', 'Country'), ('USA', 'Country'), ('Europe', 'Continent')]
 i = 0
