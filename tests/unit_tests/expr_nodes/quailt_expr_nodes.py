@@ -75,7 +75,7 @@ Description: Test the lambda expressions
 """
 # Quail-test:start
 isTrue = lambda x: x == True
-isTrue(6)  # Quail-assert: eq True
+isTrue(True)  # Quail-assert: eq True
 isTrue(9)  # Quail-assert: eq False
 
 raise_to_power = lambda x, y: x ** y
@@ -99,7 +99,8 @@ my_dict  # Quail-assert: eq {}
 my_dict = {"test": 1, 2: "True", 4.5: True, False: []}
 my_dict  # Quail-assert: eq {'test': 1, 2: 'True', 4.5: True, False: []}
 
-my_dict.clear()  # Quail-assert: eq {}
+my_dict.clear()
+my_dict # Quail-assert: eq {}
 
 person = {
     "name": "Albert",
@@ -110,14 +111,22 @@ person['name']  # Quail-assert: eq "Albert"
 person.get('name')  # Quail-assert: eq "Albert"
 'name' in person  # Quail-assert: eq True
 'birth' in person  # Quail-assert: eq False
-person.keys()  # Quail-assert: eq (['name', 'age'])
-person.values()  # Quail-assert: eq (['Albert', 40])
+vals = ['name', 'age', 'lastName']
+i = 0
+for key in person.keys():
+    key # Quail-assert: eq vals[i]
+    i += 1
+vals = ['Albert', 40, 'Smith']
+i = 0
+for val in person.values():
+    val # Quail-assert: eq vals[i]
+    i += 1
 person.pop("name")  # Quail-assert: eq "Albert"
 person  # Quail-assert: eq {'age': 40, 'lastName': 'Smith'}
 person.popitem()  # Quail-assert: eq ('lastName', 'Smith')
-person  # Quail-assert: eq {'lastName': 'Smith'}
-person.setdefault("birth", "2000")
-person['birth']  # Quail-assert: eq "2000"
+person # Quail-assert: eq {'age': 40}
+person.setdefault("birth", 2000)
+person['birth']  # Quail-assert: eq 2000
 person.update()
 
 person = {
@@ -125,14 +134,18 @@ person = {
     "lastName": "Smith",
     "age": 40
 }
-person.popitem()  # Quail-assert: eq ('age', 41)
+person.popitem()  # Quail-assert: eq ('age', 40)
 
 regions = my_dict.fromkeys({"Canada", "USA"}, "Country")
 regions  # Quail-assert: eq {'USA': 'Country', 'Canada': 'Country'}
-x = regions.items()
-x # Quail-assert: eq []
+
 regions["Europe"] = "Continent"
-x  # Quail-assert: eq ([('USA', 'Country'), ('Canada', 'Country'), ('Europe', 'Continent')])
+vals = [('Canada', 'Country'), ('USA', 'Country'), ('Europe', 'Continent')]
+i = 0
+for key, val in regions.items():
+    key == vals[i][0] # Quail-assert: eq True
+    val == vals[i][1] # Quail-assert: eq True
+    i += 1
 
 d1 = {1: 10, 2: 20}
 d2 = {3: 30, 4: 40}
@@ -155,14 +168,14 @@ Description: Test the python set
 """
 # Quail-test:start
 set1 = set()
-set1  # Quail-assert: eq {}
+set1  # Quail-assert: eq set()
 set1 = {1}
-set1  # Quail-assert: eq {}
+set1  # Quail-assert: eq {1}
 set1.add(2)
 set1.add(2)
 set1  # Quail-assert: eq {1, 2}
 set1.clear()
-set1  # Quail-assert: eq {}
+set1  # Quail-assert: eq set()
 set1 = {2, 2, 3}
 set1.discard(2)
 set1  # Quail-assert: eq {3}
@@ -175,9 +188,9 @@ set1.intersection({2, 3, 5})  # Quail-assert: eq {2, 3}
 set1.intersection_update({2})
 set1  # Quail-assert: eq {2}
 set1 = {1, 2, 3}
-set1.difference({0, 1, 2, 3, 4})  # Quail-assert: eq {0, 4}
-set1.difference_update({0, 1, 2, 3, 4})
-set1  # Quail-assert: eq {0, 4}
+set1.difference({1, 3, 5})  # Quail-assert: eq {2}
+set1.difference_update({1, 3, 5})
+set1  # Quail-assert: eq {2}
 set1 = {1, 2, 3}
 set1.isdisjoint({0, 4, 5})  # Quail-assert: eq True
 set1.isdisjoint({0, 2, 4})  # Quail-assert: eq False
@@ -186,7 +199,7 @@ set1.issubset({0, 1, 2})  # Quail-assert: eq False
 set1.issuperset({1, 2})  # Quail-assert: eq True
 set1.issuperset({})  # Quail-assert: eq True
 set1.issuperset({3, 4})  # Quail-assert: eq False
-set1.pop()  # Quail-assert: eq 3
+set1.pop()  # Quail-assert: eq 1
 set1  # Quail-assert: eq {2, 3}
 set1 = {1, 2, 3}
 set1.symmetric_difference({1, 4, 5})  # Quail-assert: eq {2, 3, 4, 5}
@@ -563,6 +576,7 @@ def scope1():
     def scope3():
         x = 3
         x # Quail-assert: eq 3
+        return x
 
     scope3() # Quail-assert: eq 3
     scope2() # Quail-assert: eq 1
@@ -571,7 +585,7 @@ def scope1():
     scope3() # Quail-assert: eq 3
 
     return x
-scope1() # Quail-assert: eq 1
+scope1() # Quail-assert: eq 5
 x # Quail-assert: eq 0
 # Quail-test:end
 

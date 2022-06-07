@@ -134,63 +134,63 @@ False and False # Quail-assert: eq False
 # Quail-test:end
 
 
-# quail-test:new
+# Quail-test:new
 """
-name: less_than
-flyable-version: v0.1a1
-description: test the less than operator (<)
+Name: less_than
+Flyable-version: v0.1a1
+Description: test the less than operator (<)
 """
-# quail-test:start
-10 < 30 # quail-assert: eq True
--1 < 0 # quail-assert: eq True
--5 < -1 # quail-assert: eq True
--5 < -5 # quail-assert: eq False
-5 < -5 # quail-assert: eq False
-# quail-test:end
+# Quail-test:start
+10 < 30 # Quail-assert: eq True
+-1 < 0 # Quail-assert: eq True
+-5 < -1 # Quail-assert: eq True
+-5 < -5 # Quail-assert: eq False
+5 < -5 # Quail-assert: eq False
+# Quail-test:end
 
 
-# quail-test:new
+# Quail-test:new
 """
-name: less_than_equal
-flyable-version: v0.1a1
-description: test the less than or equal operator (<=)
+Name: less_than_equal
+Flyable-version: v0.1a1
+Description: test the less than or equal operator (<=)
 """
-# quail-test:start
-10 <= 30 # quail-assert: eq True
--1 <= 0 # quail-assert: eq True
--5 <= -1 # quail-assert: eq True
--5 <= -5 # quail-assert: eq True
-5 <= 5 # quail-assert: eq True
-5 <= -5 # quail-assert: eq False
-# quail-test:end
+# Quail-test:start
+10 <= 30 # Quail-assert: eq True
+-1 <= 0 # Quail-assert: eq True
+-5 <= -1 # Quail-assert: eq True
+-5 <= -5 # Quail-assert: eq True
+5 <= 5 # Quail-assert: eq True
+5 <= -5 # Quail-assert: eq False
+# Quail-test:end
 
 
-# quail-test:new
+# Quail-test:new
 """
-name: greater_than
-flyable-version: v0.1a1
-description: test the greater than operator (>)
+Name: greater_than
+Flyable-version: v0.1a1
+Description: test the greater than operator (>)
 """
-# quail-test:start
-30 > 10 # quail-assert: eq True
-0 > -1 # quail-assert: eq True
--1 > -5 # quail-assert: eq True
--5 > -5 # quail-assert: eq False
--5 > 5 # quail-assert: eq False
-# quail-test:end
+# Quail-test:start
+30 > 10 # Quail-assert: eq True
+0 > -1 # Quail-assert: eq True
+-1 > -5 # Quail-assert: eq True
+-5 > -5 # Quail-assert: eq False
+-5 > 5 # Quail-assert: eq False
+# Quail-test:end
 
 
-# quail-test:new
+# Quail-test:new
 """
-name: greater_than_equal
-flyable-version: v0.1a1
-description: test the greater than or equal operator (>=)
+Name: greater_than_equal
+Flyable-version: v0.1a1
+Description: test the greater than or equal operator (>=)
 """
-# quail-test:start
-30 >= 10 # quail-assert: eq True
-0 >= -1 # quail-assert: eq True
--1 >= -5 # quail-assert: eq True
--5 >= -5 # quail-assert: eq True
-5 >= 5 # quail-assert: eq True
--5 >= 5 # quail-assert: eq False
-# quail-test:end
+# Quail-test:start
+30 >= 10 # Quail-assert: eq True
+0 >= -1 # Quail-assert: eq True
+-1 >= -5 # Quail-assert: eq True
+-5 >= -5 # Quail-assert: eq True
+5 >= 5 # Quail-assert: eq True
+-5 >= 5 # Quail-assert: eq False
+# Quail-test:end

@@ -9,7 +9,6 @@ import time
 from rich import get_console
 from rich.style import Style
 import yaml
-import importlib.util as imp_util
 
 from setup import constants
 

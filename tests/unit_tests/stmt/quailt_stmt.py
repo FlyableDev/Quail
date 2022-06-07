@@ -64,7 +64,7 @@ class FooChild(Foo):
     self.z = 3
 
 f = Foo()
-f.x # Quail-assert: eq 2
+f.x # Quail-assert: eq 1
 f2 = Foo.Bar()
 f2.x # Quail-assert: eq 10
 f2.y # Quail-assert: eq 2
@@ -179,7 +179,7 @@ total # Quail-assert: eq 15
 lst2 = []
 for i in "Hello":
   lst2.append(i)
-lst2 # Quail-assert: eq ["H", "E", "L", "L", "O"]
+lst2 # Quail-assert: eq ["H", "e", "l", "l", "o"]
 # Quail-test:end
 
 
@@ -256,7 +256,33 @@ Flyable-version: v0.1a1
 Description: Tests the async with statement
 """
 # Quail-test:start
+class MessageWriter_2(object):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.file_name # Quail-assert: eq "my_file.txt"
+      
+    def __enter__(self):
+        return "Hello World!"
+  
+    def __exit__(self, _a, _b, _c):
+        "I'm done here" # Quail-assert: eq "I'm done here"
+  
+async def first_2():
+    with MessageWriter_2('my_file.txt') as xfile:
+        return xfile
+
+async def main_2():  
+  x = ""
+  for i in range(2):
+    x += await first_2()
+  return x
+
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main_2()) # Quail-assert: eq "Hello World!Hello World!"
+
 # Quail-test:end
+
 
 # Quail-test:new
 """
@@ -329,6 +355,8 @@ def test():
   global new_var
   new_var = 5
 
+new_var # Quail-assert: eq 0
+test()
 new_var # Quail-assert: eq 5
 
 new_var_2 = 5
@@ -336,6 +364,8 @@ def test2():
   global new_var_2
   new_var_2 = 10
 
+new_var_2 # Quail-assert: eq 5
+test2()
 new_var_2 # Quail-assert: eq 10
 # Quail-test:end
 
@@ -404,11 +434,19 @@ x # Quail-assert: eq 5
 
 x = 0
 for i in range(5):
-  break
+  pass
 else:
   x = 5
 
 x # Quail-assert: eq 5
+
+x = 0
+for i in range(5):
+  break
+else:
+  x = 5
+
+x # Quail-assert: eq 0
 # Quail-test:end
 
 

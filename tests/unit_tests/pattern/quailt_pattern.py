@@ -25,9 +25,9 @@ def http_error(status):
 http_error(400) # Quail-assert: eq "Bad request"
 http_error(404) # Quail-assert: eq "Not found"
 http_error("useless") # Quail-assert: eq "I'm useless"
-http_error(-1) # Quail-assert: eq "Helse"
+http_error(-1) # Quail-assert: eq "Else"
 http_error(1) # Quail-assert: eq "Here"
-http_error(100) # Quail-assert: eq "Else"
+http_error(100) # Quail-assert: eq "Here"
 # Quail-test:end
 
 
@@ -143,7 +143,7 @@ def test_class(val):
 test_class(Foo(10, 20)) # Quail-assert: eq "First"
 test_class(Foo(50, 0)) # Quail-assert: eq "Second"
 test_class(Foo(50, 0, 5)) # Quail-assert: eq "Second"
-test_class(Foo(50, 10, 5)) # Quail-assert: eq "Third"
+test_class(Foo(50, 10, 5)) # Quail-assert: eq "Fourth"
 test_class(Foo(0, 0, 0)) # Quail-assert: eq "Else"
 # Quail-test:end
 

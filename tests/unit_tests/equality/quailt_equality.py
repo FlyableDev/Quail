@@ -7,7 +7,7 @@ Flyable-version: v0.1a1
 Description: Test the equality between two integers
 """
 # Quail-test:start
-15 == 15  # Quail-assert:True
+15 == 15  # Quail-assert: eq True
 # Quail-test:end
 
 
@@ -18,7 +18,7 @@ Flyable-version: v0.1a1
 Description: Test the equality between two floats
 """
 # Quail-test:start
-print(15.12 == 15.12)
+15.12 == 15.12 # Quail-assert: eq True
 # Quail-test:end
 
 
@@ -30,10 +30,10 @@ Description: Test the equality between two boolean
 Dependencies: subtraction, division
 """
 # Quail-test:start
-False == False  # Quail-assert: True
-True == True    # Quail-assert: True
-False == True   # Quail-assert: False
-True == False   # Quail-assert: False
+False == False  # Quail-assert: eq True
+True == True    # Quail-assert: eq True
+False == True   # Quail-assert: eq False
+True == False   # Quail-assert: eq False
 # Quail-test:end
 
 
@@ -44,7 +44,7 @@ Flyable-version: v0.1a1
 Description: Test triple equality
 """
 # Quail-test:start
-2 == 2 == 2  # Quail-assert: True
+2 == 2 == 2  # Quail-assert: eq True
 # Quail-test:end
 
 
@@ -55,10 +55,10 @@ Flyable-version: v0.1a1
 Description: Test the is operator
 """
 # Quail-test:start
-print(True is True)
-print(True is False)
-print(False is False)
-print(False is True)
+True is True   # Quail-assert: eq True
+True is False  # Quail-assert: eq False
+False is False # Quail-assert: eq True
+False is True  # Quail-assert: eq False
 # Quail-test:end
 
 
@@ -69,10 +69,10 @@ Flyable-version: v0.1a1
 Description: Test the equality between 0, 1 and booleans using is operator
 """
 # Quail-test:start
-print(0 is False)
-print(1 is False)
-print(0 is True)
-print(1 is True)
+0 is False # Quail-assert: eq False
+1 is False # Quail-assert: eq False
+0 is True  # Quail-assert: eq False
+1 is True  # Quail-assert: eq False
 # Quail-test:end
 
 
@@ -83,8 +83,8 @@ Flyable-version: v0.1a1
 Description: Test the equality between 0, 1 and boolean using equal operator
 """
 # Quail-test:start
-print(0 == False)
-print(1 == False)
-print(0 == True)
-print(1 == True)
+0 == False # Quail-assert: eq True
+1 == False # Quail-assert: eq False
+0 == True # Quail-assert: eq False
+1 == True # Quail-assert: eq True
 # Quail-test:end
