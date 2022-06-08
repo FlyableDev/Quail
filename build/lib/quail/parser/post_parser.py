@@ -13,7 +13,7 @@ class PostQuailTestParser:
                 wrap_test_in_func(self.quail_test)
 
 
-def wrap_test_in_func(test: QuailTest, name="_quail_test_func"):
+def wrap_test_in_func(test: QuailTest, name="test_flyable"):
     # adding padding to all lines
 
     indent = " " * 4  # get_first_indent(test.lines)
@@ -23,5 +23,4 @@ def wrap_test_in_func(test: QuailTest, name="_quail_test_func"):
     test.lines.insert(0, f"def {name}():\n")
 
     # adding the func call at the end
-    test.lines.append(f"\n{name}()\n")
     test.lines.append(f"\n{name}()\n")

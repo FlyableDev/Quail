@@ -28,7 +28,6 @@ def __load_flyable():
     sys.path.append(flyable_path)
     try:
         import flyable
-
         return True
     except ImportError:
         return False

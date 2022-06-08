@@ -73,7 +73,7 @@ def cli():
 )
 def run(test, mode, verbose):
     if mode == "unit":
-        process = Popen(["pytest", f"./tests/unit_tests{'/' + test if test != '~' else ''}"])
+        process = Popen(["pytest", f"./tests/unit_tests{'/' + test if test != '~' else ''}", "-vv"])
         process.communicate()
 
     elif mode == "integration":

@@ -1,5 +1,7 @@
 from __future__ import annotations
 import asyncio, flyable
+import importlib
+from time import sleep
 
 from typing import TYPE_CHECKING
 
@@ -41,7 +43,13 @@ class QuailTest:
     def fly_exec(self, stdout: StdOut):
         self.lines.insert(0, "import flyable\n")
         self.lines.insert(1, "flyable.run()\n")
-        exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio, "flyable": flyable}, { "asyncio": asyncio, "flyable": flyable})
+
+        with open("_quail_test.py", "w") as f:
+            f.truncate(0)
+            f.writelines(self.lines)
+        import _quail_test
+        importlib.reload(_quail_test)
+        #exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio, "flyable": flyable}, { "asyncio": asyncio, "flyable": flyable})
         result = stdout.content
         stdout.clear()
         self.lines = self.lines[2:]
@@ -79,12 +87,20 @@ class QuailTest:
         """
 
     def py_exec(self, stdout: StdOut):
-        exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
+        with open("_quail_test.py", "w") as f:
+            f.truncate(0)
+            f.writelines(self.lines)
+        import _quail_test
+        importlib.reload(_quail_test)
+        #exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio, "flyable": flyable}, { "asyncio": asyncio, "flyable": flyable})
         result = stdout.content
         stdout.clear()
         if not all(x == "True" for x in result.split("\n") if x):
             raise Warning(result)
-
+        """exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
+        result = stdout.content
+        stdout.clear()
+        """
         return result
 
     @property

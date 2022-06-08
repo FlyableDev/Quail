@@ -7,8 +7,6 @@ Flyable-version: v0.1a1
 Description: Tests the function definition
 """
 # Quail-test:start
-import asyncio
-
 def func_no_args():
   pass
 
@@ -190,6 +188,7 @@ Flyable-version: v0.1a1
 Description: Tests the async for loop definition
 """
 # Quail-test:start
+import asyncio
 async def first():
     return 10
 
@@ -256,6 +255,7 @@ Flyable-version: v0.1a1
 Description: Tests the async with statement
 """
 # Quail-test:start
+import asyncio
 class MessageWriter_2(object):
     def __init__(self, file_name):
         self.file_name = file_name
