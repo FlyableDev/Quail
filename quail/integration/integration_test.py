@@ -52,14 +52,13 @@ class IntegrationTest:
         """
 
     def fly_exec(self):
-        self.lines.insert(0, "import flyable")
-        self.lines.insert(1, "flyable.run()")
+        self.lines.insert(0, "import flyable.flyable")
         f = StringIO()
         with redirect_stdout(f):
             exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
         s = f.getvalue()
         
-        self.__lines = self.lines[2:]
+        self.__lines = self.lines[1:]
         return s
 
         """
