@@ -624,6 +624,24 @@ tple[0] # Quail-assert: eq 2
 x, y = tple
 x # Quail-assert: eq 2
 y # Quail-assert: eq 3
+
+tple = (1, 2, 3, 4, 5)
+x, y, *z = tple
+x # Quail-assert: eq 1
+y # Quail-assert: eq 2
+z # Quail-assert: eq [3, 4, 5]
+
+tple = (1, 2, 3, 4, 5)
+x, *y, z, a = tple
+x # Quail-assert: eq 1
+y # Quail-assert: eq [2, 3]
+z # Quail-assert: eq 4
+a # Quail-assert: eq 5
+
+tple = (1, 2, 3, 4, 5)
+*x, y = tple
+x # Quail-assert: eq [1, 2, 3 ,4]
+y # Quail-assert: eq 5
 # Quail-test:end
 
 
