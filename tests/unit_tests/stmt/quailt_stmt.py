@@ -372,6 +372,32 @@ new_var # Quail-assert: eq 25
 
 # Quail-test:new
 """
+Name: Global_Call
+Flyable-version: v0.1a1
+Description: Tests the global statement
+No-Wrap: True
+"""
+# Quail-test:start
+
+def addition(x, y):
+  return x + y
+
+x = 0
+def test_flyable():
+  global x
+  x = addition(x, 2)
+  return x
+
+test_flyable() # Quail-assert: eq 2
+test_flyable() # Quail-assert: eq 4
+test_flyable() # Quail-assert: eq 6
+test_flyable() # Quail-assert: eq 8
+test_flyable() # Quail-assert: eq 10
+# Quail-test:end
+
+
+# Quail-test:new
+"""
 Name: NonLocal
 Flyable-version: v0.1a1
 Description: Tests the NonLocal statement

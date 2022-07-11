@@ -6,7 +6,7 @@ from quail.quail_test import QuailTest
 def test_BoolOp(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
 
-"""
+""" TODO : FIX NamedExpr (walrus)
 @quail_tester
 def test_NamedExpr(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
@@ -16,11 +16,10 @@ def test_NamedExpr(quail_test: QuailTest, stdout: StdOut):
 def test_UnaryOp(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
 
-"""
+""" TODO : FIX lambda expression
 @quail_tester
 def test_Lambda(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
-
 """
 
 @quail_tester
@@ -43,7 +42,7 @@ def test_SetComp(quail_test: QuailTest, stdout: StdOut):
 def test_DictComp(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
 
-"""
+""" TODO : FIX generator expression
 @quail_tester
 def test_GeneratorExp(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
