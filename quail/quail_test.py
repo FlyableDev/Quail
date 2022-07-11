@@ -41,7 +41,8 @@ class QuailTest:
         return compile("".join(self.lines), self.file_name, "exec")
 
     def fly_exec(self, stdout: StdOut):
-        self.lines.insert(0, "import flyable.flyable\n")
+        self.lines.insert(0, "from flyable import flyable\n")
+        self.lines.insert(1, "flyable.run()\n")
 
         with open("_quail_test.py", "w") as f:
             f.truncate(0)
@@ -53,7 +54,7 @@ class QuailTest:
         if result.startswith("now running flyable engine\n"):
             result = result.replace("now running flyable engine\n", "", 1)
         stdout.clear()
-        self.lines = self.lines[1:]
+        self.lines = self.lines[2:]
         return result
         """
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
