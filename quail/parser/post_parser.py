@@ -15,14 +15,16 @@ class PostQuailTestParser:
 
 def wrap_test_in_func(test: QuailTest, name="test_flyable"):
     # adding padding to all lines
+    no_wrap = test.infos.get('No-Wrap', False)
 
-    indent = " " * 4  # get_first_indent(test.lines)
-    test.lines = [indent + line for line in test.lines]
+    if not no_wrap:
+        indent = " " * 4  # get_first_indent(test.lines)
+        test.lines = [indent + line for line in test.lines]
 
-    # adding the test func at the start
-    test.lines.insert(0, f"def {name}():\n")
+        # adding the test func at the start
+        test.lines.insert(0, f"def {name}():\n")
 
-    # adding the func call at the end
-    nbCalls = 5
-    for i in range(nbCalls):
-        test.lines.append(f"\n{name}()\n")
+        # adding the func call at the end
+        nbCalls = 1
+        for i in range(nbCalls):
+            test.lines.append(f"\n{name}()\n")

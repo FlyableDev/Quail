@@ -4,6 +4,7 @@ QUAIL_VALID_INFOS: dict[str, bool] = {
     "Name": True,
     "Flyable-version": True,
     "Description": True,
+    "No-Wrap": False,
     "Dependencies": False,
 }
 """ 

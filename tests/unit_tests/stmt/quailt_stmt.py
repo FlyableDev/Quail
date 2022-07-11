@@ -348,25 +348,25 @@ assert 2 != 2
 Name: Global
 Flyable-version: v0.1a1
 Description: Tests the global statement
+No-Wrap: True
 """
 # Quail-test:start
 new_var = 0
-def test():
+def test_flyable():
   global new_var
-  new_var = 5
+  new_var += 5
 
 new_var # Quail-assert: eq 0
-test()
+test_flyable()
 new_var # Quail-assert: eq 5
-
-new_var_2 = 5
-def test2():
-  global new_var_2
-  new_var_2 = 10
-
-new_var_2 # Quail-assert: eq 5
-test2()
-new_var_2 # Quail-assert: eq 10
+test_flyable()
+new_var # Quail-assert: eq 10
+test_flyable()
+new_var # Quail-assert: eq 15
+test_flyable()
+new_var # Quail-assert: eq 20
+test_flyable()
+new_var # Quail-assert: eq 25
 # Quail-test:end
 
 
