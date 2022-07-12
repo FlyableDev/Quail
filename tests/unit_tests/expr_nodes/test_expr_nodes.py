@@ -105,5 +105,17 @@ def test_Tuple(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
 
 @quail_tester
+def test_TupleUnpacking(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_ListUnpacking(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_StringUnpacking(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
 def test_Slice(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)

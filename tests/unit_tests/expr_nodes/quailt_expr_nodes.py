@@ -624,6 +624,23 @@ tple[0] # Quail-assert: eq 2
 x, y = tple
 x # Quail-assert: eq 2
 y # Quail-assert: eq 3
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: TupleUnpacking
+Flyable-version: v0.1a1
+Description: Test the tuple expression
+"""
+# Quail-test:start
+tple = (1, 2, 3, 4, 5)
+x, y, z, a, b = tple
+x # Quail-assert: eq 1
+y # Quail-assert: eq 2
+z # Quail-assert: eq 3
+a # Quail-assert: eq 4
+b # Quail-assert: eq 5
 
 tple = (1, 2, 3, 4, 5)
 x, y, *z = tple
@@ -642,6 +659,76 @@ tple = (1, 2, 3, 4, 5)
 *x, y = tple
 x # Quail-assert: eq [1, 2, 3 ,4]
 y # Quail-assert: eq 5
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: ListUnpacking
+Flyable-version: v0.1a1
+Description: Test the tuple expression
+"""
+# Quail-test:start
+lst = [1, 2, 3, 4, 5]
+x, y, z, a, b = lst
+x # Quail-assert: eq 1
+y # Quail-assert: eq 2
+z # Quail-assert: eq 3
+a # Quail-assert: eq 4
+b # Quail-assert: eq 5
+
+lst = [1, 2, 3, 4, 5]
+x, y, *z = lst
+x # Quail-assert: eq 1
+y # Quail-assert: eq 2
+z # Quail-assert: eq [3, 4, 5]
+
+lst = [1, 2, 3, 4, 5]
+x, *y, z, a = lst
+x # Quail-assert: eq 1
+y # Quail-assert: eq [2, 3]
+z # Quail-assert: eq 4
+a # Quail-assert: eq 5
+
+lst = [1, 2, 3, 4, 5]
+*x, y = lst
+x # Quail-assert: eq [1, 2, 3 ,4]
+y # Quail-assert: eq 5
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: StringUnpacking
+Flyable-version: v0.1a1
+Description: Test the tuple expression
+"""
+# Quail-test:start
+s = "Hello"
+x, y, z, a, b = s
+x # Quail-assert: eq "H"
+y # Quail-assert: eq "e"
+z # Quail-assert: eq "l"
+a # Quail-assert: eq "l"
+b # Quail-assert: eq "o"
+
+s = "Hello"
+x, y, *z = s
+x # Quail-assert: eq "H"
+y # Quail-assert: eq "e"
+z # Quail-assert: eq ["l", "l", "o"]
+
+s = "Hello"
+x, *y, z, a = s
+x # Quail-assert: eq "H"
+y # Quail-assert: eq ["e", "l"]
+z # Quail-assert: eq "l"
+a # Quail-assert: eq "o"
+
+s = "Hello"
+*x, y = s
+x # Quail-assert: eq ["H", "e", "l" , "l"]
+y # Quail-assert: eq "o"
 # Quail-test:end
 
 

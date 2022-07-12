@@ -25,6 +25,6 @@ def wrap_test_in_func(test: QuailTest, name="test_flyable"):
         test.lines.insert(0, f"def {name}():\n")
 
         # adding the func call at the end
-        nbCalls = 1
+        nbCalls = 5
         for i in range(nbCalls):
             test.lines.append(f"\n{name}()\n")

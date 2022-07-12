@@ -50,6 +50,9 @@ class QuailTest:
         import _quail_test
         importlib.reload(_quail_test)
         #exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio, "flyable": flyable}, { "asyncio": asyncio, "flyable": flyable})
+        timeout = self.infos.get('Timeout', None)
+        if timeout is not None:
+            sleep(float(timeout))
         result = stdout.content
         if result.startswith("now running flyable engine\n"):
             result = result.replace("now running flyable engine\n", "", 1)

@@ -10,3 +10,11 @@ def test_flyable():
     
 
 test_flyable()
+
+test_flyable()
+
+test_flyable()
+
+test_flyable()
+
+test_flyable()
