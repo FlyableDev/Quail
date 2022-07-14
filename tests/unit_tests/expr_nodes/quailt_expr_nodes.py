@@ -631,7 +631,7 @@ y # Quail-assert: eq 3
 """
 Name: TupleUnpacking
 Flyable-version: v0.1a1
-Description: Test the tuple expression
+Description: Test the tuple unpacking
 """
 # Quail-test:start
 tple = (1, 2, 3, 4, 5)
@@ -666,7 +666,7 @@ y # Quail-assert: eq 5
 """
 Name: ListUnpacking
 Flyable-version: v0.1a1
-Description: Test the tuple expression
+Description: Test the list unpacking
 """
 # Quail-test:start
 lst = [1, 2, 3, 4, 5]
@@ -701,7 +701,7 @@ y # Quail-assert: eq 5
 """
 Name: StringUnpacking
 Flyable-version: v0.1a1
-Description: Test the tuple expression
+Description: Test the string unpacking
 """
 # Quail-test:start
 s = "Hello"
@@ -747,4 +747,76 @@ lst[:-2] # Quail-assert: eq [0, 1, 2, 3, 4, 5, 6, 7]
 lst[-2:] # Quail-assert: eq [8, 9]
 lst[-2:9] # Quail-assert: eq [8]
 lst[::-1] # Quail-assert: eq [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: NameArgs
+Flyable-version: v0.1a1
+Description: Test the name args in a function call
+"""
+# Quail-test:start
+def test_n1(a, b=3, c=4):
+    return a + b + c
+
+test_n1(2, c=5) # Quail-assert: eq 10
+test_n1(2, c=5, b=1) # Quail-assert: eq 8
+test_n1(2, b=1) # Quail-assert: eq 7
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: KeywordArgs
+Flyable-version: v0.1a1
+Description: Test the keyword args in a function call
+"""
+# Quail-test:start
+def test_k1(**kwargs):
+    return [k + 1 for k in kwargs.values()]
+
+test_k1() # Quail-assert: eq []
+test_k1(a=0, b=1, c=2) # Quail-assert: eq [1, 2, 3]
+
+def test_k2(a, b, **kwargs):
+    return a + b + sum(kwargs.values())
+
+test_k2(1, 2) # Quail-assert: eq 3
+test_k2(1, 2, c=3, d=4, e=5) # Quail-assert: eq 15
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: NameStarredArgs
+Flyable-version: v0.1a1
+Description: Test the name args with * operator in a function call
+"""
+# Quail-test:start
+def test_1(*numbers, a=3, b=4):
+    return a + b + sum(numbers)
+
+test_1() # Quail-assert: eq 7
+test_1(a=10, b=10) # Quail-assert: eq 20
+test_1(1, 2, 3, 4, a=5) # Quail-assert: eq 19
+test_1(1, 2, a=5, b=1) # Quail-assert: eq 9
+test_1(2, b=1) # Quail-assert: eq 6
+# Quail-test:end
+
+
+# Quail-test:new
+"""
+Name: NameAndKwargsStarred
+Flyable-version: v0.1a1
+Description: Test the name args and kwargs with * operator in a function call
+"""
+# Quail-test:start
+def test_args(*numbers, **kwargs):
+    return sum(numbers) + sum(kwargs.values())
+
+test_args() # Quail-assert: eq 0
+test_args(a=10, b=10) # Quail-assert: eq 20
+test_args(1, 2, 3) # Quail-assert: eq 6
+test_args(1, 2, a=5, b=1, x=2) # Quail-assert: eq 11
 # Quail-test:end

@@ -119,3 +119,19 @@ def test_StringUnpacking(quail_test: QuailTest, stdout: StdOut):
 @quail_tester
 def test_Slice(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_NameArgs(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_KeywordArgs(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_NameStarredArgs(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_NameAndKwargsStarred(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
