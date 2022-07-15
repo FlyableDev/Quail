@@ -97,15 +97,10 @@ class QuailTest:
             f.writelines(self.lines)
         import _quail_test
         importlib.reload(_quail_test)
-        #exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio, "flyable": flyable}, { "asyncio": asyncio, "flyable": flyable})
         result = stdout.content
         stdout.clear()
         if not all(x == "True" for x in result.split("\n") if x):
             raise Warning(result)
-        """exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
-        result = stdout.content
-        stdout.clear()
-        """
         return result
 
     @property

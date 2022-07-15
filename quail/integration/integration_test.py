@@ -1,4 +1,5 @@
 import asyncio
+import importlib
 import json, os
 from dataclasses import dataclass, field
 from io import StringIO
@@ -34,6 +35,10 @@ class IntegrationTest:
 
         return self.__lines
 
+    @lines.setter
+    def lines(self, lines):
+        self.__lines = lines
+
     """
     def fly_compile(self, save_results: bool = False):
         compiler = Compiler()
@@ -52,15 +57,24 @@ class IntegrationTest:
         """
 
     def fly_exec(self):
-        self.lines.insert(0, "import flyable.flyable")
-        f = StringIO()
-        with redirect_stdout(f):
-            exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
-        s = f.getvalue()
-        
-        self.__lines = self.lines[1:]
-        return s
+        self.lines.insert(0, "from flyable import flyable\n")
+        self.lines.insert(1, "flyable.run()\n")
 
+        with open("_quail_test.py", "w") as out:
+            out.truncate(0)
+            out.writelines(self.lines)
+        
+        out = StringIO()
+        with redirect_stdout(out):
+            import _quail_test
+            importlib.reload(_quail_test)
+        result = out.getvalue()
+        
+        if result.startswith("now running flyable engine\n"):
+            result = result.replace("now running flyable engine\n", "", 1)
+        
+        self.lines = self.lines[2:]
+        return result
         """
         link_path = constants.LINKER_EXEC if platform.system() == "Windows" else "gcc"
         linker_args = [link_path, "-flto", constants.PYTHON_3_11_PATH, "output.o"]
@@ -92,11 +106,15 @@ class IntegrationTest:
         """
 
     def py_exec(self):
-        f = StringIO()
-        with redirect_stdout(f):
-           exec(self.py_compile(), {"built" : __builtins__, "asyncio": asyncio}, { "asyncio": asyncio})
-        s = f.getvalue()
-        return s
+        with open("_quail_test.py", "w") as f:
+            f.truncate(0)
+            f.writelines(self.lines)
+
+        out = StringIO()
+        with redirect_stdout(out):
+            import _quail_test
+            importlib.reload(_quail_test)
+        return out.getvalue()
 
 
 def load_integration_tests(base_dir: str):

@@ -1,7 +1,0 @@
-# This file is used by quail to obtain the Flyable library and other settings
-
-config:
-  FLYABLE_DIR: "C:/A-Important/Flyable/Flyable/src"
-  PYTHON_PATH: "C:/Program Files/Python311/python.exe"
-  TARGETED_PLATFORM: "Windows" # "Linux" | "Windows" | "Darwin"
-

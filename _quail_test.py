@@ -1,17 +1,8 @@
-def test_flyable():
-    print((30 >= 10) == (True))
-    print((0 >= -1) == (True))
-    print((-1 >= -5) == (True))
-    print((-5 >= -5) == (True))
-    print((5 >= 5) == (True))
-    print((-5 >= 5) == (False))
 
-test_flyable()
+def fib(n):
+  if n == 0 or n == 1:
+    return n
+  return fib(n - 1) + fib(n - 2) 
 
-test_flyable()
-
-test_flyable()
-
-test_flyable()
-
-test_flyable()
+res = fib(25)
+print(res)
