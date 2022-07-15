@@ -46,7 +46,7 @@ def test_AsyncFor(quail_test: QuailTest, stdout: StdOut):
 def test_While(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
 
-""" TODO : Fix with keyword
+""" FIXME : Fix with keyword
 @quail_tester
 def test_With(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)

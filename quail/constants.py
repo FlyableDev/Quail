@@ -1,5 +1,6 @@
 from enum import Enum, auto
 
+# TODO : Add in documentation
 QUAIL_VALID_INFOS: dict[str, bool] = {
     "Name": True,
     "Flyable-version": True,
