@@ -1,8 +1,20 @@
+def test_flyable():
+    print(("Hello World!"[:5] == "Hello") == True)
+    print(("Hello World!"[6:] == "World!") == True)
+    print(("Hello World!"[:] == "Hello World!") == True)
+    print(("Hello World!"[0:0] == "") == True)
+    print(("Hello World!"[2:4] == "ll") == True)
+    print(("Hello World!"[:-7] == "Hello") == True)
+    print(("Hello World!"[-6:] == "World!") == True)
+    print(("Hello World!"[-6:-5] == "W") == True)
+    
 
-def fib(n):
-  if n == 0 or n == 1:
-    return n
-  return fib(n - 1) + fib(n - 2) 
+test_flyable()
 
-res = fib(25)
-print(res)
+test_flyable()
+
+test_flyable()
+
+test_flyable()
+
+test_flyable()

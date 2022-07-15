@@ -40,3 +40,23 @@ def test_pow(quail_test: QuailTest, stdout: StdOut):
 @quail_tester
 def test_floor_division(quail_test: QuailTest, stdout: StdOut):
     assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_LShift(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_BitAnd(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_BitOr(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_BitXor(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)
+
+@quail_tester
+def test_MatMul(quail_test: QuailTest, stdout: StdOut):
+    assert quail_test.fly_exec(stdout) == quail_test.py_exec(stdout)

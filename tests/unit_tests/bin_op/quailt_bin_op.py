@@ -219,7 +219,7 @@ Description: Test the BitAnd operator
 1 & 1 # Quail-assert: eq 1
 
 2 & 3 # Quail-assert: eq 2
-2 & 0 # Quail-assert: eq 2
+2 & 0 # Quail-assert: eq 0
 -1 & -1 # Quail-assert: eq -1
 12 & 3 # Quail-assert: eq 0
 12 & -3 # Quail-assert: eq 12
@@ -266,19 +266,21 @@ Description: Test the BitXor operator
 
 156 ^ 52 # Quail-assert: eq 168
 -156 ^ 52 # Quail-assert: eq -176
-156 ^ -52 # Quail-assert: eq 168
--156 ^ -52 # Quail-assert: eq -176
+156 ^ -52 # Quail-assert: eq -176
+-156 ^ -52 # Quail-assert: eq 168
 # Quail-test:end
 
-
+# FIXME : Add matmul operator
 # Quail-test:new
 """
-Name: MatMult
+Name: MatMul
 Flyable-version: v0.1a1
 Description: Test the MatMult operator
 """
 # Quail-test:start
+assert False
+#A = [[1, 2], [3, 4]]             
+#B = [[11, 12],[13, 14]]
 
-# TODO : Add numpy to test implementation ?
-
+#C = A @ B
 # Quail-test:end
