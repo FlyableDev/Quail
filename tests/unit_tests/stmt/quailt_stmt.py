@@ -171,6 +171,12 @@ Flyable-version: v0.1a1
 Description: Tests the for loop definition
 """
 # Quail-test:start
+i = 0
+for i in range(10):
+  i += 1
+
+i # Quail-assert: eq 10
+
 lst = [1, 2, 3, 4, 5]
 total = 0
 for i in lst:
