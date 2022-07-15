@@ -95,9 +95,12 @@ Description: Tests the delete statement
 # Quail-test:start
 x = 10
 x # Quail-assert: eq 10
-"x" in locals() # Quail-assert: eq True
 del x
-"x" in locals() # Quail-assert: eq False
+if True:
+  try:
+    print(x)
+  except:
+    True # Quail-assert: eq True
 
 lst = [1, 2, 3]
 del lst[1]

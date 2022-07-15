@@ -490,6 +490,12 @@ Description: Test the constant expression (constant number, string, None, tuples
 PI = 3.14
 PI # Quail-assert: eq 3.14
 
+if True:
+    try:
+        PI = 2
+    except:
+        True # Quail-assert: eq True
+
 GRAVITY = 9.8
 GRAVITY # Quail-assert: eq 9.8
 
